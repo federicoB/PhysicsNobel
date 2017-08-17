@@ -4,10 +4,9 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 
 # Create your models here.
 
-class Laureate:
-    def __init__(self, name, surname):
+class Laureate():
+    def __init__(self, name):
         self.name = name
-        self.surname = surname
 
     @staticmethod
     def all():
@@ -22,4 +21,6 @@ class Laureate:
         }
         """)
         sparql.setReturnFormat(JSON)
-        return sparql.query().convert()
+        results = sparql.query().convert()['results']['bindings']
+        names = [result['itemLabel']['value'] for result in results]
+        return [Laureate(name) for name in names]

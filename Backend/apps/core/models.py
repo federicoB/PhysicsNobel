@@ -1,5 +1,5 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
-
+import requests
 from apps.core.queries import wikidataSparqlEndpoint, allLaureate, laureateDetail
 
 
@@ -44,6 +44,16 @@ class Laureate(object):
         picture = result[0].get('picture', {}).get('value')
         prizes = [result['year']['value'] for result in result]
         # get biography
-        
+        baseurl = 'https://en.wikipedia.org/w/api.php'
+        my_atts = {}
+        my_atts['action'] = 'query'
+        my_atts['prop'] = 'extracts'
+        my_atts['explaintext'] = True
+        my_atts['format'] = 'json'
+        my_atts['titles'] = name
+        resp = requests.get(baseurl, params=my_atts)
+        data = resp.json()
+        biography = next(iter(data['query']['pages'].values()))['extract']
+        # TODO remove References and External Links
         # get laureate articles on crossref
-        return Laureate(name, picture, prizes)
+        return Laureate(name, picture, prizes, biography)

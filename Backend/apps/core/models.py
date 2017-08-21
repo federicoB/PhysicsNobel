@@ -3,7 +3,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from apps.core.queries import wikidataSparqlEndpoint, allLaureate, laureateDetail
 
 
-class Laureate():
+class Laureate(object):
     def __init__(self, name=None, picture=None, prizes=[], biography=None):
         self.name = name
         self.picture = picture
@@ -17,9 +17,22 @@ class Laureate():
         sparql.setQuery(allLaureate)
         sparql.setReturnFormat(JSON)
         results = sparql.query().convert()['results']['bindings']
-        names = [result['itemLabel']['value'] for result in results]
-        pictures = [result.get('picture', {}).get('value') for result in results]
-        return [Laureate(name, picture) for name, picture in zip(names, pictures)]
+        names = list()
+        pictures = list()
+        prizes = list()
+        for result in results:
+            name = result['itemLabel']['value']
+            picture = result.get('picture', {}).get('value')
+            prize = result['year']['value']
+            if name not in names:
+                names.append(name)
+                pictures.append(picture)
+                prizes.append([prize])
+            else:
+                prizes[names.index(name)].append(prize)
+        return [Laureate(name, picture, prize)
+                for name, picture, prize
+                in zip(names, pictures, prizes)]
 
     @staticmethod
     def get(name):
@@ -29,4 +42,8 @@ class Laureate():
         result = sparql.query().convert()['results']['bindings']
         name = result[0]['itemLabel']['value']
         picture = result[0].get('picture', {}).get('value')
-        return Laureate(name, picture)
+        prizes = [result['year']['value'] for result in result]
+        # get biography
+        
+        # get laureate articles on crossref
+        return Laureate(name, picture, prizes)

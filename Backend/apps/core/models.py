@@ -1,14 +1,14 @@
-from django.db import models
 from SPARQLWrapper import SPARQLWrapper, JSON
-from .queries import allLaureate, wikidataSparqlEndpoint
 
+from apps.core.queries import wikidataSparqlEndpoint, allLaureate, laureateDetail
 
-# Create your models here.
 
 class Laureate():
-    def __init__(self, name, picture):
+    def __init__(self, name=None, picture=None, prizes=[], biography=None):
         self.name = name
         self.picture = picture
+        self.prizes = prizes
+        self.biography = biography
 
     @staticmethod
     def all():
@@ -24,14 +24,7 @@ class Laureate():
     @staticmethod
     def get(name):
         sparql = SPARQLWrapper("https://query.wikidata.org/bigdata/namespace/wdq/sparql")
-        sparql.setQuery("""
-                SELECT ?itemLabel ?picture WHERE {{
-                    ?item wdt:P166 wd:Q38104.
-                    ?item ?label "{0}"@en.
-                    SERVICE wikibase:label {{ bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }}
-                    OPTIONAL {{ ?item wdt:P18 ?picture. }}
-                }}
-                """.format(name))
+        sparql.setQuery(laureateDetail.format(name))
         sparql.setReturnFormat(JSON)
         result = sparql.query().convert()['results']['bindings']
         name = result[0]['itemLabel']['value']

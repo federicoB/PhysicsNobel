@@ -1,23 +1,19 @@
-from rest_framework.response import Response
-from .models import Laureate
-from .serializer import LaureateSerializer
 from rest_framework import viewsets
+from rest_framework.response import Response
+
+from .models import Laureate
+from .serializer import LaureateSerializer, LaureateDetailSerializer
 
 
 # Create your views here.
 
 class LaureateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LaureateSerializer
+    queryset = Laureate.all()
 
-    def list(self, request, *args, **kwargs):
-        queryset = Laureate.all()
-        serializer = LaureateSerializer(instance=queryset, many=True)
+    # list method is automatically defined by setting the queryset
+
+    def retrieve(self, request, **kwargs):
+        laureate = Laureate.get(kwargs.get('pk'))
+        serializer = LaureateDetailSerializer(instance=laureate)
         return Response(serializer.data)
-
-    def retrieve(self, request, pk):
-        laureate = Laureate.get(pk)
-        serializer = LaureateSerializer(instance=laureate)
-        return Response(serializer.data)
-
-    def get_queryset(self):
-        return Laureate.all()

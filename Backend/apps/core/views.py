@@ -1,8 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from .models import Laureate
-from .serializer import LaureateSerializer, LaureateDetailSerializer
+from .models import Laureate, Prize
+from .serializer import LaureateSerializer, \
+    LaureateDetailSerializer, PrizeSerializer
 
 
 # Create your views here.
@@ -16,4 +17,14 @@ class LaureateViewSet(viewsets.ReadOnlyModelViewSet):
     def retrieve(self, request, **kwargs):
         laureate = Laureate.get(kwargs.get('pk'))
         serializer = LaureateDetailSerializer(instance=laureate)
+        return Response(serializer.data)
+
+
+class PrizeViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = PrizeSerializer
+    queryset = Prize.all()
+
+    def retrieve(self, request, **kwargs):
+        prize = Prize.get(kwargs.get('pk'))
+        serializer = PrizeSerializer(instance=prize)
         return Response(serializer.data)

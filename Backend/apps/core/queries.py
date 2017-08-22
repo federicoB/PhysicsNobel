@@ -27,3 +27,14 @@ laureateDetail = """
         }}
         GROUP BY ?date ?itemLabel ?picture
         """
+
+allWorks = """
+        SELECT (YEAR(?date) as ?year) ?itemLabel WHERE {
+            ?item p:P166 ?statement.
+            ?statement ps:P166 wd:Q38104.
+            ?statement pq:P585 ?date
+            SERVICE wikibase:label { 
+                bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en".
+                 }
+        }
+        """

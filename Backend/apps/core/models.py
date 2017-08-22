@@ -1,14 +1,19 @@
-from SPARQLWrapper import SPARQLWrapper, JSON
 import requests
-from apps.core.queries import wikidataSparqlEndpoint, allLaureate, laureateDetail
+from SPARQLWrapper import SPARQLWrapper, JSON
+from habanero import Crossref
+
+from apps.core.queries import wikidataSparqlEndpoint, \
+    allLaureate, laureateDetail, allWorks
 
 
 class Laureate(object):
-    def __init__(self, name=None, picture=None, prizes=[], biography=None):
+    def __init__(self, name=None, picture=None, prizes=list(),
+                 biography=None, works=list()):
         self.name = name
         self.picture = picture
         self.prizes = prizes
         self.biography = biography
+        self.works = works
 
     @staticmethod
     def all():
@@ -44,6 +49,7 @@ class Laureate(object):
         picture = result[0].get('picture', {}).get('value')
         prizes = [result['year']['value'] for result in result]
         # get biography
+        # TODO add user agent
         baseurl = 'https://en.wikipedia.org/w/api.php'
         my_atts = {}
         my_atts['action'] = 'query'
@@ -56,4 +62,50 @@ class Laureate(object):
         biography = next(iter(data['query']['pages'].values()))['extract']
         # TODO remove References and External Links
         # get laureate articles on crossref
-        return Laureate(name, picture, prizes, biography)
+        cr = Crossref()
+        result = cr.works(
+            query_author=name,
+            limit=6)
+        works = [Work.getFromHabaneroItem(item) for item in result['message']['items']]
+        return Laureate(name, picture, prizes, biography, works)
+
+
+class Work(object):
+    def __init__(self, title=None, URL=None):
+        self.title = title
+        self.URL = URL
+
+    @staticmethod
+    def getFromHabaneroItem(item):
+        return Work(item['container-title'][0], item['URL'])
+
+
+class Prize:
+    def __init__(self, year, laureates=list()):
+        self.year = year
+        self.laureates = laureates
+
+    @staticmethod
+    def all():
+        sparql = SPARQLWrapper(wikidataSparqlEndpoint)
+        sparql.setQuery(allWorks)
+        sparql.setReturnFormat(JSON)
+        results = sparql.query().convert()['results']['bindings']
+        years = list()
+        laureates = list()
+        for result in results:
+            name = result['itemLabel']['value']
+            year = result['year']['value']
+            if year not in years:
+                years.append(year)
+                laureates.append([Laureate(name)])
+            else:
+                laureates[years.index(year)].append(Laureate(name))
+        return [Prize(year, laureatesPrize)
+                for year, laureatesPrize
+                in zip(years, laureates)]
+
+    @staticmethod
+    def get(year):
+        # TODO add query to nobelprize.org
+        return Prize(year, [Laureate("test")])

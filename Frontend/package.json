@@ -1,0 +1,9 @@
+{
+  "name": "PhysicsNobel",
+  "version": "1.0.0",
+  "description": "A website about Nobel laureates in Physics",
+  "main": "index.js",
+  "repository": "https://github.com/federicoB/PhysicsNobel",
+  "author": "Federico Bertani",
+  "license": "GNU GPLv3"
+}

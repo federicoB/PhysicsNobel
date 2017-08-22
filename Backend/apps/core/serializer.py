@@ -30,3 +30,7 @@ class LaureateDetailSerializer(LaureateSerializer):
 class PrizeSerializer(serializers.Serializer):
     year = serializers.CharField(max_length=10)
     laureates = LaureateBasicSerializer(many=True, required=True)
+
+
+class PrizeDetailSerializers(PrizeSerializer):
+    motivation = serializers.CharField(max_length=100)

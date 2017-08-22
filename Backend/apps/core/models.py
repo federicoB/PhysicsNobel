@@ -81,9 +81,10 @@ class Work(object):
 
 
 class Prize:
-    def __init__(self, year, laureates=list()):
+    def __init__(self, year, laureates=list(), motivation=None):
         self.year = year
         self.laureates = laureates
+        self.motivation = motivation
 
     @staticmethod
     def all():
@@ -107,5 +108,13 @@ class Prize:
 
     @staticmethod
     def get(year):
-        # TODO add query to nobelprize.org
-        return Prize(year, [Laureate("test")])
+        baseurl = 'http://api.nobelprize.org/v1/prize.json'
+        my_atts = {}
+        my_atts['year'] = year
+        my_atts['category'] = "physics"
+        resp = requests.get(baseurl, params=my_atts)
+        data = resp.json()['prizes']
+        laureatesRaw = data[0]['laureates']
+        laureates = [Laureate(laureate['firstname'] + " " + laureate['surname']) for laureate in laureatesRaw]
+        motivation = laureatesRaw[0]['motivation'][5:]
+        return Prize(year, laureates, motivation)

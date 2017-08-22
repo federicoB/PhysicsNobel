@@ -3,7 +3,7 @@ from rest_framework.response import Response
 
 from .models import Laureate, Prize
 from .serializer import LaureateSerializer, \
-    LaureateDetailSerializer, PrizeSerializer
+    LaureateDetailSerializer, PrizeSerializer, PrizeDetailSerializers
 
 
 # Create your views here.
@@ -26,5 +26,5 @@ class PrizeViewSet(viewsets.ReadOnlyModelViewSet):
 
     def retrieve(self, request, **kwargs):
         prize = Prize.get(kwargs.get('pk'))
-        serializer = PrizeSerializer(instance=prize)
+        serializer = PrizeDetailSerializers(instance=prize)
         return Response(serializer.data)

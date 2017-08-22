@@ -34,3 +34,4 @@ class PrizeSerializer(serializers.Serializer):
 
 class PrizeDetailSerializers(PrizeSerializer):
     motivation = serializers.CharField(max_length=100)
+    works = WorkSerializer(many=True, required=True)

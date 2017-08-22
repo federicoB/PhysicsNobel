@@ -81,10 +81,11 @@ class Work(object):
 
 
 class Prize:
-    def __init__(self, year, laureates=list(), motivation=None):
+    def __init__(self, year, laureates=list(), motivation=None, works=list()):
         self.year = year
         self.laureates = laureates
         self.motivation = motivation
+        self.works = works
 
     @staticmethod
     def all():
@@ -117,4 +118,9 @@ class Prize:
         laureatesRaw = data[0]['laureates']
         laureates = [Laureate(laureate['firstname'] + " " + laureate['surname']) for laureate in laureatesRaw]
         motivation = laureatesRaw[0]['motivation'][5:]
-        return Prize(year, laureates, motivation)
+        cr = Crossref()
+        result = cr.works(
+            query=motivation,
+            limit=6)
+        works = [Work.getFromHabaneroItem(item) for item in result['message']['items']]
+        return Prize(year, laureates, motivation, works)

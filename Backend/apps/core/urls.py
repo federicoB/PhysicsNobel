@@ -4,7 +4,8 @@ from rest_framework.routers import DefaultRouter
 from apps.core.views import LaureateViewSet, PrizeViewSet
 
 router = DefaultRouter()
-router.register(r'laureates', LaureateViewSet, base_name='laureates')
+#register routes for laureates object. 'laureates' will also be the base name for naming views.
+router.register(r'laureates', LaureateViewSet,base_name='laureates')
 router.register(r'prizes', PrizeViewSet, base_name='prizes')
 
 urlpatterns = [

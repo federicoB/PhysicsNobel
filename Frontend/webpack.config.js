@@ -19,7 +19,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 include: path.resolve(__dirname, 'src'),
-                exclude: /node_modules/,
+                exclude: path.resolve(__dirname, 'node_modules'),
                 use: [{
                     loader: 'babel-loader',
                     options: {
@@ -43,7 +43,7 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'sass-loader'],
             },
             {
-                test: /\.(jpg|png|woff|woff2|ttf|svg|eot)*$/,
+                test: /\.(jpg|png|ttf|svg)*$/,
                 loader: 'url-loader',
                 options: {
                     limit: 25000, //limit to 25kB

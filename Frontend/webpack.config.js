@@ -37,7 +37,26 @@ module.exports = {
                     {loader: 'css-loader'}
                 ]
 
-            }
+            },
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
+            },
+            {
+                test: /\.(jpg|png|woff|woff2|ttf|svg|eot)*$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 25000, //limit to 25kB
+                },
+            },
+            { //file loader declared after url-load so images < 25kB will be include in bundle and others
+                //will be linked
+                test: /\.(jpg|png|woff|woff2|ttf|svg|eot)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[path][name].[hash].[ext]',
+                },
+            },
         ]
     },
     plugins:

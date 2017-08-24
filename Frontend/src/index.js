@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 import '../semantic/dist/semantic.min.css';
-import request from 'request';
+import request from 'superagent'
 
-import {Search} from 'semantic-ui-react'
+import {Search,Label} from 'semantic-ui-react'
 
 class SearchBar extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.resetComponent = this.resetComponent.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -23,18 +23,21 @@ class SearchBar extends React.Component {
     }
 
     handleResultSelect(e, { result }){
-        this.setState({ value: result.title })
+        this.setState({ value: result.name })
     }
 
     handleSearchChange(e, { value }) {
-        this.setState({ isLoading: true, value })
-
-        //TODO make request, filter set result and set loading to false.
-        request('http://localhost:8000/laureates/',(error,response,body)=>{
-            const laureates = JSON.parse(body);
-            console.log(laureates);
-            this.setState({isLoading:false})
-        })
+        this.setState({ isLoading: true, value });
+        request
+            .get('/api/laureates/')
+            .set('Accept', 'application/json')
+            .end((err, res) => {
+                const names = res.body.map(({ name,picture,prizes })=>({title:name}))
+                    .filter(({title})=>title.startsWith(value));
+                this.setState(
+                    {isLoading:false,
+                    results:names})
+            });
     }
 
     render() {
@@ -46,6 +49,7 @@ class SearchBar extends React.Component {
                 onSearchChange={this.handleSearchChange}
                 results={results}
                 value={value}
+                resultRenderer={this.resultRenderer}
                 {...this.props}
             />
         )

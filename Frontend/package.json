@@ -13,18 +13,18 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.5",
     "file-loader": "^0.11.2",
-    "html-webpack-plugin": "^2.30.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "sass-loader": "^6.0.6",
+    "request": "^2.81.0",
     "semantic-ui": "^2.2.13",
     "semantic-ui-react": "^0.71.5",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
-    "webpack": "^3.5.5"
+    "webpack": "^3.5.5",
+    "webpack-bundle-tracker": "^0.2.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --env development",
+    "start": "webpack --watch",
     "build": "webpack -p"
   },
   "devDependencies": {

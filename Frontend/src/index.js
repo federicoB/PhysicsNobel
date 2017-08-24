@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 import '../semantic/dist/semantic.min.css';
+import request from 'request';
 
 import {Search} from 'semantic-ui-react'
 
@@ -29,6 +30,11 @@ class SearchBar extends React.Component {
         this.setState({ isLoading: true, value })
 
         //TODO make request, filter set result and set loading to false.
+        request('http://localhost:8000/laureates/',(error,response,body)=>{
+            const laureates = JSON.parse(body);
+            console.log(laureates);
+            this.setState({isLoading:false})
+        })
     }
 
     render() {

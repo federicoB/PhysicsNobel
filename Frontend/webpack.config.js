@@ -1,18 +1,14 @@
 const webpack = require('webpack');
 const path = require('path');
-
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-    title: 'PhysicsNobel',
-    inject: 'body'
-});
+const BundleTracker = require('webpack-bundle-tracker')
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     entry: "./index.js",
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "bundle.js"
+        filename: "bundle.js",
+        publicPath: "/static/"
     },
     module: {
         rules: [
@@ -30,6 +26,10 @@ module.exports = {
                     }
                 }]
             },
+/*            {
+                test: /\.json/,
+                loader: 'json-loader'
+            },*/
             {
                 test: /\.css$/,
                 use: [
@@ -37,10 +37,6 @@ module.exports = {
                     {loader: 'css-loader'}
                 ]
 
-            },
-            {
-                test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
             },
             {
                 test: /\.(jpg|png|ttf|svg)*$/,
@@ -59,6 +55,12 @@ module.exports = {
             },
         ]
     },
-    plugins:
-        [HtmlWebpackPluginConfig]
+    plugins: [
+        new BundleTracker({filename: './webpack-stats.json'})
+    ],
+    node: { //WORKAROUND for using request package
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty'
+    }
 };

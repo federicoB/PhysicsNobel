@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'webpack_loader',
     'apps.core.apps.PhysicsConfig',
 ]
 
@@ -63,6 +64,7 @@ DATABASES = {
 }
 
 # used for browsable API from Django Rest Framework
+# TODO maybe some context processors can be removed
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -78,6 +80,15 @@ TEMPLATES = [
         },
     },
 ]
+
+from .localConfig import STATICFILES_DIRS, FRONTEND_DIR
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'dist/',
+        'STATS_FILE': os.path.join(FRONTEND_DIR, 'webpack-stats.json'),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -112,5 +123,5 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
+# TODO check if can put static files in root path
 STATIC_URL = '/static/'

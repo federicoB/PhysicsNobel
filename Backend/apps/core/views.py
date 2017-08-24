@@ -1,12 +1,14 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
+from django.views.generic import TemplateView
 
 from .models import Laureate, Prize
 from .serializer import LaureateSerializer, \
     LaureateDetailSerializer, PrizeSerializer, PrizeDetailSerializers
 
 
-# Create your views here.
+class IndexView(TemplateView):
+    template_name = 'index.html'
 
 class LaureateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LaureateSerializer

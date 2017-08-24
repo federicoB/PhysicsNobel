@@ -1,64 +1,52 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './style.css';
 import '../semantic/dist/semantic.min.css';
 import request from 'superagent'
 
-import {Search,Label} from 'semantic-ui-react'
+import './style.css';
+import SearchBar from './SearchBar'
+import LaureatesGrid from './LaureatesGrid'
+import {Loader} from "semantic-ui-react";
 
-class SearchBar extends React.Component {
+class Application extends React.Component {
     constructor(props) {
         super(props);
-        this.resetComponent = this.resetComponent.bind(this);
-        this.handleResultSelect = this.handleResultSelect.bind(this);
-        this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.state = {
+            laureates: []
+        };
+        this.getLaureates();
     }
 
-    componentWillMount() {
-        this.resetComponent()
-    }
-
-    resetComponent() {
-        this.setState({ isLoading: false, results: [], value: '' });
-    }
-
-    handleResultSelect(e, { result }){
-        this.setState({ value: result.name })
-    }
-
-    handleSearchChange(e, { value }) {
-        this.setState({ isLoading: true, value });
+    getLaureates() {
         request
             .get('/api/laureates/')
             .set('Accept', 'application/json')
             .end((err, res) => {
-                const names = res.body.map(({ name,picture,prizes })=>({title:name}))
-                    .filter(({title})=>title.startsWith(value));
                 this.setState(
-                    {isLoading:false,
-                    results:names})
+                    {laureates: res.body})
             });
     }
 
     render() {
-        const {isLoading, value, results} = this.state;
+        const {laureates} = this.state;
+        const laureateLength = (laureates.length>0);
         return (
-            <Search
-                loading={isLoading}
-                onResultSelect={this.handleResultSelect}
-                onSearchChange={this.handleSearchChange}
-                results={results}
-                value={value}
-                resultRenderer={this.resultRenderer}
-                {...this.props}
-            />
+            <div>
+            {laureateLength ?
+                <div>
+                <SearchBar laureates={laureates}/>
+                <LaureatesGrid laureates={laureates}/>
+                </div>
+                : <Loader active={true}/>}
+            </div>
         )
     }
 }
 
+
 let root = document.createElement("DIV");
 document.body.appendChild(root);
 ReactDOM.render(
-    <SearchBar/>,
+    <Application/>,
     root
 );

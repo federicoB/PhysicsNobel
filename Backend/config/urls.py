@@ -20,5 +20,5 @@ import apps.core.urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include(apps.core.urls)),
+    url(r'^api/', include(apps.core.urls)),
 ]

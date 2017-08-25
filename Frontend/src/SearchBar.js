@@ -1,5 +1,6 @@
 import React from 'react';
-
+import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 import {Search} from 'semantic-ui-react'
 
 export default class SearchBar extends React.Component {
@@ -8,6 +9,10 @@ export default class SearchBar extends React.Component {
         this.resetComponent = this.resetComponent.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.resultRenderer = ({ title }) => <Link to={"/pages/"+title} > {title} </Link>;
+        this.resultRenderer.propTypes = {
+            title: PropTypes.string,
+        }
     }
 
     componentWillMount() {

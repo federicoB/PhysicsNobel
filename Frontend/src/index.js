@@ -36,7 +36,7 @@ class Application extends React.Component {
         const laureateLength = (laureates.length>0);
         return (
             <Switch>
-                <Route exact path="/" component={()=>(
+                <Route exact path="/" render={()=>(
                     <div>
                     {laureateLength ?
                         <div>
@@ -46,7 +46,7 @@ class Application extends React.Component {
                         : <Loader active={true}/>}
                 </div>)}/>
             <Route exact path="/results" component={ResultsPage}/>
-            <Route path="/pages/:page" component={PageSwitcher}/>
+            <Route path="/pages/:page" render={props=>(<PageSwitcher {...props} laureates={laureates}/>)}/>
             </Switch>
 
         )
@@ -54,7 +54,12 @@ class Application extends React.Component {
 }
 
 //TODO if page is in laureate category return LaureatePage, BasicWikiPage otherwise
-const PageSwitcher = (props) => null;
+const PageSwitcher = ({match,laureates}) => {
+    let pageName = match.params.page;
+    let page = (laureates.filter(({name})=>(name===pageName)).length===1) ?
+        <LaureatePage name={pageName}/> : <BasicWikiPage name={pageName}/>;
+    return page;
+};
 
 
 let root = document.createElement("DIV");

@@ -46,7 +46,7 @@ class Application extends React.Component {
                         : <Loader active={true}/>}
                 </div>)}/>
             <Route exact path="/results" component={ResultsPage}/>
-            <Route path="/:page" component={PageSwitcher}/>
+            <Route path="/pages/:page" component={PageSwitcher}/>
             </Switch>
 
         )

@@ -1,6 +1,8 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.generic import TemplateView
 from rest_framework import viewsets
 from rest_framework.response import Response
-from django.views.generic import TemplateView
 
 from .models import Laureate, Prize
 from .serializer import LaureateSerializer, \
@@ -10,6 +12,8 @@ from .serializer import LaureateSerializer, \
 class IndexView(TemplateView):
     template_name = 'index.html'
 
+
+@method_decorator(cache_page(604800), name='dispatch')
 class LaureateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LaureateSerializer
     queryset = Laureate.all()
@@ -23,6 +27,7 @@ class LaureateViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
 
+@method_decorator(cache_page(604800), name='dispatch')
 class PrizeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PrizeSerializer
     queryset = Prize.all()

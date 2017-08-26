@@ -69,6 +69,13 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'TIMEOUT': 604800,  # a week
+    }
+}
+
 # used for browsable API from Django Rest Framework
 # TODO maybe some context processors can be removed
 TEMPLATES = [

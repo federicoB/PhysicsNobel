@@ -13,11 +13,12 @@ class IndexView(TemplateView):
 class LaureateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LaureateSerializer
     queryset = Laureate.all()
+    lookup_field = 'name'
 
     # list method is automatically defined by setting the queryset
 
     def retrieve(self, request, **kwargs):
-        laureate = Laureate.get(kwargs.get('pk'))
+        laureate = Laureate.get(kwargs.get('name'))
         serializer = LaureateDetailSerializer(instance=laureate)
         return Response(serializer.data)
 

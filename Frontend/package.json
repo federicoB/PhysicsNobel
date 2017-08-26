@@ -22,7 +22,8 @@
     "superagent": "^3.6.0",
     "url-loader": "^0.5.9",
     "webpack": "^3.5.5",
-    "webpack-bundle-tracker": "^0.2.0"
+    "webpack-bundle-tracker": "^0.2.0",
+    "wikijs": "^4.0.0"
   },
   "scripts": {
     "start": "webpack --watch",

@@ -45,7 +45,7 @@ class Application extends React.Component {
                         </div>
                         : <Loader active={true}/>}
                 </div>)}/>
-            <Route exact path="/results" component={ResultsPage}/>
+            <Route exact path="/results/:query" component={ResultsPage}/>
             <Route path="/pages/:page" render={props=>(<PageSwitcher {...props} laureates={laureates}/>)}/>
             </Switch>
 

@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
+import { withRouter } from 'react-router'
 import {Search} from 'semantic-ui-react'
 
-export default class SearchBar extends React.Component {
+class SearchBarNoRouter extends React.Component {
     constructor(props) {
         super(props);
+        this.history = this.props.history;
         this.resetComponent = this.resetComponent.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.handleGenericSearch = this.handleGenericSearch.bind(this);
         this.resultRenderer = ({ title }) => <Link to={"/pages/"+title} > {title} </Link>;
         this.resultRenderer.propTypes = {
             title: PropTypes.string,
@@ -27,6 +30,13 @@ export default class SearchBar extends React.Component {
         this.setState({ value: result.name })
     }
 
+    handleGenericSearch(e) {
+        //if enter is pressed
+        if (e.keyCode===13) {
+            this.history.push('/results/'+this.state.value)
+        }
+    }
+
     handleSearchChange(e, { value }) {
         let laureates = this.props.laureates.map(({ name,picture,prizes })=>({title:name}));
         this.setState({
@@ -42,6 +52,7 @@ export default class SearchBar extends React.Component {
                 loading={isLoading}
                 onResultSelect={this.handleResultSelect}
                 onSearchChange={this.handleSearchChange}
+                onKeyDown={this.handleGenericSearch}
                 results={results}
                 value={value}
                 resultRenderer={this.resultRenderer}
@@ -49,3 +60,5 @@ export default class SearchBar extends React.Component {
         )
     }
 }
+
+export default withRouter(SearchBarNoRouter);

@@ -1,5 +1,6 @@
 import requests
 from SPARQLWrapper import SPARQLWrapper, JSON
+from django.urls import reverse_lazy
 from habanero import Crossref
 
 from apps.core.queries import wikidataSparqlEndpoint, \
@@ -28,7 +29,7 @@ class Laureate(object):
         for result in results:
             name = result['itemLabel']['value']
             picture = result.get('picture', {}).get('value')
-            prize = result['year']['value']
+            prize = reverse_lazy('prize-detail', args=[result['year']['value']])
             if name not in names:
                 names.append(name)
                 pictures.append(picture)
@@ -47,7 +48,7 @@ class Laureate(object):
         result = sparql.query().convert()['results']['bindings']
         name = result[0]['itemLabel']['value']
         picture = result[0].get('picture', {}).get('value')
-        prizes = [result['year']['value'] for result in result]
+        prizes = [reverse_lazy('prize-detail', args=[result['year']['value']]) for result in result]
         # get biography
         # TODO add user agent
         baseurl = 'https://en.wikipedia.org/w/api.php'

@@ -23,7 +23,8 @@ class LaureateViewSet(viewsets.ReadOnlyModelViewSet):
 
     def retrieve(self, request, **kwargs):
         laureate = Laureate.get(kwargs.get('name'))
-        serializer = LaureateDetailSerializer(instance=laureate)
+        # context is required for url reversing
+        serializer = LaureateDetailSerializer(instance=laureate, context={'request': request})
         return Response(serializer.data)
 
 
@@ -31,8 +32,9 @@ class LaureateViewSet(viewsets.ReadOnlyModelViewSet):
 class PrizeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PrizeSerializer
     queryset = Prize.all()
+    lookup_field = 'year'
 
     def retrieve(self, request, **kwargs):
-        prize = Prize.get(kwargs.get('pk'))
+        prize = Prize.get(kwargs.get('year'))
         serializer = PrizeDetailSerializers(instance=prize)
         return Response(serializer.data)

@@ -12,15 +12,10 @@ class LaureateBasicSerializer(serializers.Serializer):
 
 class LaureateSerializer(LaureateBasicSerializer):
     picture = serializers.URLField(max_length=100)
-    # prizes = serializers.HyperlinkedRelatedField(
-    #     many=True,
-    #     read_only=True,
-    #     view_name='prize-detail'
-    # )
     prizes = serializers.ListField(
-        child=serializers.CharField(max_length=10)
+        required=True,
+        child=serializers.URLField()
     )
-
 
 class LaureateDetailSerializer(LaureateSerializer):
     biography = serializers.CharField(max_length=1000)

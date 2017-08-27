@@ -18,6 +18,9 @@ class Application extends React.Component {
         this.state = {
             laureates: []
         };
+    }
+
+    componentDidMount() {
         this.getLaureates();
     }
 
@@ -33,27 +36,25 @@ class Application extends React.Component {
 
     render() {
         const {laureates} = this.state;
-        const laureateLength = (laureates.length>0);
+        const laureateLength = (laureates.length > 0);
         return (
-            <Switch>
-                <Route exact path="/" render={()=>(
-                    <div>
-                    {laureateLength ?
-                        <div>
-                            <SearchBar laureates={laureates}/>
-                            <LaureatesGrid laureates={laureates}/>
-                        </div>
-                        : <Loader active={true}/>}
-                </div>)}/>
-            <Route exact path="/results/:query" component={ResultsPage}/>
-            <Route path="/pages/:page" render={props=>(<PageSwitcher {...props} laureates={laureates}/>)}/>
-            </Switch>
-
-        )
+            <div>
+                {laureateLength ?
+                    <Switch>
+                        <Route exact path="/" render={() => (
+                            <div>
+                                <SearchBar laureates={laureates}/>
+                                <LaureatesGrid laureates={laureates}/>
+                            </div>
+                        )}/>
+                        <Route exact path="/results/:query" component={ResultsPage}/>
+                        <Route path="/pages/:page"
+                               render={props => (<PageSwitcher {...props} laureates={laureates}/>)}/>
+                    </Switch> : <Loader active={true}/>}
+            </div>)
     }
 }
 
-//TODO if page is in laureate category return LaureatePage, BasicWikiPage otherwise
 const PageSwitcher = ({match,laureates}) => {
     let pageName = match.params.page;
     let page = (laureates.filter(({name})=>(name===pageName)).length===1) ?

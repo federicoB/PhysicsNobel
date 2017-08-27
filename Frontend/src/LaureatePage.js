@@ -1,6 +1,7 @@
 import React from 'react'
 import request from 'superagent'
 import {Image,Loader} from 'semantic-ui-react'
+import annotator from 'annotator'
 
 export default class LaureatePage extends React.Component{
     constructor(props) {
@@ -8,7 +9,13 @@ export default class LaureatePage extends React.Component{
         this.state = {
             laureate : null
         };
-        this.fetchLaureateInfo(props.name);
+    }
+    componentDidMount() {
+        this.fetchLaureateInfo(this.props.name);
+        let app = new annotator.App();
+        app.include(annotator.ui.main);
+        app.include(annotator.storage.http, { prefix: "/annotations"});
+        app.start();
     }
 
     fetchLaureateInfo(name) {

@@ -26,10 +26,6 @@ module.exports = {
                     }
                 }]
             },
-/*            {
-                test: /\.json/,
-                loader: 'json-loader'
-            },*/
             {
                 test: /\.css$/,
                 use: [
@@ -38,14 +34,7 @@ module.exports = {
                 ]
 
             },
-            {
-                test: /\.(jpg|png|ttf|svg)*$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 25000, //limit to 25kB
-                },
-            },
-            { //file loader declared after url-load so images < 25kB will be include in bundle and others
+            { //i had problems with url-loader so i use only file-loader for now.
                 //will be linked
                 test: /\.(jpg|png|woff|woff2|ttf|svg|eot)$/,
                 loader: 'file-loader',
@@ -58,12 +47,7 @@ module.exports = {
     plugins: [
         new BundleTracker({filename: './webpack-stats.json'})
     ],
-    node: { //WORKAROUND for using request package
-        fs: 'empty',
-        net: 'empty',
-        tls: 'empty'
-    },
-    externals: {
+    externals: { //required by webpack-bundle-tracker
         "isomorphic-fetch": "fetch"
     }
 };

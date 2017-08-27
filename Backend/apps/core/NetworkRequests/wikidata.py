@@ -9,11 +9,11 @@ def setupWikidataRequest(query):
     request = Request()
     request.method = 'GET'
     request.url = wikidataSparqlEndpoint
-    header = {
+    headers = {
         'Accept': 'application/sparql-results+json',
         'user-agent': userAgent
     }
-    request.headers = header
+    request.headers = headers
     request.params = {'query': query}
     return request.prepare()
 

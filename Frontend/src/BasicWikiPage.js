@@ -8,7 +8,10 @@ export default class BasicWikiPage extends React.Component{
         this.state = {
             content : null
         };
-        this.fetchContent(props.name)
+    }
+
+    componentDidMount() {
+        this.fetchContent(this.props.name);
     }
 
     fetchContent(pageName) {

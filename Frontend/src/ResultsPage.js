@@ -6,11 +6,15 @@ import {Loader} from 'semantic-ui-react'
 export default class ResultsPage extends React.Component{
     constructor(props){
         super(props);
-        let query = props.match.params.query;
-        this.fetchResults(query);
+
         this.state = {
             results: []
         }
+    }
+
+    componentDidMount(){
+        let query = this.props.match.params.query;
+        this.fetchResults(query);
     }
 
     fetchResults(query) {

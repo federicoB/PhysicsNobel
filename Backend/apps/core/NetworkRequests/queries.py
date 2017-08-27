@@ -1,4 +1,8 @@
+
 wikidataSparqlEndpoint = "https://query.wikidata.org/bigdata/namespace/wdq/sparql"
+
+userAgent = 'PhysicsNobel (federico.bertani@studio.unibo.it)'
+
 # TODO optimize queries on seraching on instance and sublass of humans
 allLaureate = """
         SELECT ?itemLabel (YEAR(?date) as ?year) ?picture WHERE {

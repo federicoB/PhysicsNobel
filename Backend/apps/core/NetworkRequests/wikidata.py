@@ -1,7 +1,8 @@
 from django.urls import reverse_lazy
-from .queries import wikidataSparqlEndpoint, allLaureate, \
-    laureateDetail, allWorks
 from requests import Request, Session
+
+from .queries import wikidataSparqlEndpoint, userAgent, \
+    allLaureate, laureateDetail, allWorks
 
 
 def setupWikidataRequest(query):
@@ -10,7 +11,7 @@ def setupWikidataRequest(query):
     request.url = wikidataSparqlEndpoint
     header = {
         'Accept': 'application/sparql-results+json',
-        'user-agent': 'PhysicsNobel (federico.bertani@studio.unibo.it)'
+        'user-agent': userAgent
     }
     request.headers = header
     request.params = {'query': query}

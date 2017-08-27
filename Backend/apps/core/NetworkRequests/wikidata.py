@@ -1,14 +1,31 @@
-from SPARQLWrapper import SPARQLWrapper, JSON
 from django.urls import reverse_lazy
 from .queries import wikidataSparqlEndpoint, allLaureate, \
     laureateDetail, allWorks
+from requests import Request, Session
 
+
+def setupWikidataRequest(query):
+    request = Request()
+    request.method = 'GET'
+    request.url = wikidataSparqlEndpoint
+    header = {
+        'Accept': 'application/sparql-results+json',
+        'user-agent': 'PhysicsNobel (federico.bertani@studio.unibo.it)'
+    }
+    request.headers = header
+    request.params = {'query': query}
+    return request.prepare()
+
+
+def queryWikidata(query):
+    session = Session()
+    preparedRequest = setupWikidataRequest(query)
+    result = session.send(request=preparedRequest).json()
+    return result['results']['bindings']
 
 def getLaureateListData():
     # TODO use wikipedia category for getting wikidata pages instead of using award property
-    sparql = setupWikidataRequest()
-    sparql.setQuery(allLaureate)
-    results = sparql.query().convert()['results']['bindings']
+    results = queryWikidata(allLaureate)
     # join prizes with the same laureate
     names = list()
     pictures = list()
@@ -26,17 +43,9 @@ def getLaureateListData():
     return names, pictures, prizes
 
 
-def setupWikidataRequest():
-    sparql = SPARQLWrapper(wikidataSparqlEndpoint)
-    sparql.setReturnFormat(JSON)
-    return sparql
-
-
 def getLaureateDetailData(name):
-    sparql = setupWikidataRequest()
     query = laureateDetail.format(name)
-    sparql.setQuery(query)
-    result = sparql.query().convert()['results']['bindings']
+    result = queryWikidata(query)
     name = result[0]['itemLabel']['value']
     picture = result[0].get('picture', {}).get('value')
     prizes = [reverse_lazy('prize-detail', args=[result['year']['value']]) for result in result]
@@ -44,9 +53,7 @@ def getLaureateDetailData(name):
 
 
 def getWorksListData():
-    sparql = setupWikidataRequest()
-    sparql.setQuery(allWorks)
-    results = sparql.query().convert()['results']['bindings']
+    results = queryWikidata(allWorks)
     years = list()
     laureates = list()
     for result in results:

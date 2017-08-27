@@ -24,14 +24,23 @@ class IndexViewTests(TestCase):
 class LaureateEnpointTests(TestCase):
     def setUp(self):
         self.client = Client()
+        self.urlLaureateList = reverse("laureate-list");
 
     def test_response_list(self):
-        response = self.client.get(reverse("laureate-list"))
+        response = self.client.get(self.urlLaureateList)
         self.assertEqual(response.status_code, 200)
 
     def test_response_list_length(self):
-        response = self.client.get(reverse("laureate-list"))
+        response = self.client.get(self.urlLaureateList)
         self.assertTrue(len(response.json()) > 200)
+
+    def test_unsupported_methods_list(self):
+        response = self.client.post(self.urlLaureateList)
+        self.assertEqual(response.status_code, 405)
+        response = self.client.put(self.urlLaureateList)
+        self.assertEqual(response.status_code, 405)
+        response = self.client.delete(self.urlLaureateList)
+        self.assertEqual(response.status_code, 405)
 
     def test_response_detail(self):
         name = "Albert Einstein"
@@ -42,10 +51,23 @@ class LaureateEnpointTests(TestCase):
 class PrizeEndpointTests(TestCase):
     def setUp(self):
         self.client = Client()
+        self.urlPrizeList = reverse("prize-list");
 
     def test_response_list(self):
-        response = self.client.get(reverse("prize-list"))
+        response = self.client.get(self.urlPrizeList)
         self.assertEqual(response.status_code, 200)
+
+    def test_response_list_length(self):
+        response = self.client.get(self.urlPrizeList)
+        self.assertTrue(len(response.json()) > 100)
+
+    def test_unsupported_methods_list(self):
+        response = self.client.post(self.urlPrizeList)
+        self.assertEqual(response.status_code, 405)
+        response = self.client.put(self.urlPrizeList)
+        self.assertEqual(response.status_code, 405)
+        response = self.client.delete(self.urlPrizeList)
+        self.assertEqual(response.status_code, 405)
 
     def test_response_detail(self):
         year = "1965"

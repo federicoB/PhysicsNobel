@@ -81,10 +81,10 @@ class UsersTests(TestCase):
 
     def test_Registration(self):
         data = {
-            'username': 'prova',
-            'password1': 'prova123',
-            'password2': 'prova123',
-            'email': 'fedbertani@gmail.com',
+            'username': 'test',
+            'password1': 'test',
+            'password2': 'test',
+            'email': 'test@gmail.com',
         }
         response = self.client.post('/rest-auth/registration/', data=data)
         self.assertEqual(response.status_code, 201)

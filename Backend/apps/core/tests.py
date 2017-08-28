@@ -73,3 +73,18 @@ class PrizeEndpointTests(TestCase):
         year = "1965"
         response = self.client.get(reverse("prize-detail", args=[year]))
         self.assertEqual(response.status_code, 200)
+
+
+class UsersTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_Registration(self):
+        data = {
+            'username': 'prova',
+            'password1': 'prova123',
+            'password2': 'prova123',
+            'email': 'fedbertani@gmail.com',
+        }
+        response = self.client.post('/rest-auth/registration/', data=data)
+        self.assertEqual(response.status_code, 201)

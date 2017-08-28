@@ -5,8 +5,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from .models import Laureate, Prize
-from .serializer import LaureateSerializer, \
-    LaureateDetailSerializer, PrizeSerializer, PrizeDetailSerializers
+from .serializer import *
 
 
 class IndexView(TemplateView):
@@ -36,5 +35,5 @@ class PrizeViewSet(viewsets.ReadOnlyModelViewSet):
 
     def retrieve(self, request, **kwargs):
         prize = Prize.get(kwargs.get('year'))
-        serializer = PrizeDetailSerializers(instance=prize)
+        serializer = PrizeDetailSerializers(instance=prize, context={'request': request})
         return Response(serializer.data)

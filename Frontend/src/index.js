@@ -8,34 +8,33 @@ import {Loader} from "semantic-ui-react";
 import './style.css';
 import SearchBar from './SearchBar'
 import LaureatesGrid from './LaureatesGrid'
-import LaureatePage from './LaureatePage'
 import ResultsPage from './ResultsPage'
-import BasicWikiPage from './BasicWikiPage'
+import PageSwitcher from './PageSwitcher'
+import Header from './Header'
 
 class Application extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            laureates: []
+            laureates: [],
+            user: null,
         };
+        this.loginCarriedOut = this.loginCarriedOut.bind(this);
+        this.setLaureates = this.setLaureates.bind(this);
     }
 
-    componentDidMount() {
-        this.getLaureates();
+    loginCarriedOut(key) {
+        this.setState(prevState => ({
+            user: Object.assign(prevState.user, {key: response.body.key})
+        }));
     }
 
-    getLaureates() {
-        request
-            .get('/api/laureates/')
-            .set('Accept', 'application/json')
-            .end((err, res) => {
-                this.setState(
-                    {laureates: res.body})
-            });
+    setLaureates(laureates) {
+        this.setState({laureates: laureates});
     }
 
     render() {
-        const {laureates} = this.state;
+        const {laureates, user} = this.state;
         const laureateLength = (laureates.length > 0);
         return (
             <div>
@@ -49,18 +48,11 @@ class Application extends React.Component {
                         )}/>
                         <Route exact path="/results/:query" component={ResultsPage}/>
                         <Route path="/pages/:page"
-                               render={props => (<PageSwitcher {...props} laureates={laureates}/>)}/>
+                               render={props => (<PageSwitcher {...props} user={user} laureates={laureates}/>)}/>
                     </Switch> : <Loader active={true}/>}
             </div>)
     }
 }
-
-const PageSwitcher = ({match,laureates}) => {
-    let pageName = match.params.page;
-    let page = (laureates.filter(({name})=>(name===pageName)).length===1) ?
-        <LaureatePage name={pageName}/> : <BasicWikiPage name={pageName}/>;
-    return page;
-};
 
 
 let root = document.createElement("DIV");

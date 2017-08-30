@@ -1,29 +1,47 @@
 import React from 'react'
-import {Grid, Loader, Button, Image} from 'semantic-ui-react'
-import logo from './assets/atom_color.svg'
+import {Grid, Loader, Button, Image, Segment, Header as HeaderSemantic} from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
+import logo from './assets/atom_white.svg'
 
 import SearchBar from './SearchBar'
 
 export default class Header extends React.Component {
     render() {
         const {laureates, match} = this.props;
-        const size = match.path === "/" ? "massive" : "small";
         const searchBar = laureates !== null ?
             <SearchBar laureates={laureates}/> : <Loader active={true}/>;
-        return (
-            <Grid columns="3">
-                <Grid.Row centered={true}>
-                    <Grid.Column>
-                        <Image size="tiny" src={logo}/>
-                    </Grid.Column>
-                    <Grid.Column>
-                        {searchBar}
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Button>Home</Button>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
-        );
+        if (match.path === "/" && match.isExact) {
+            return (
+                <Segment basic inverted size="massive">
+                    <Grid columns="2" centered>
+                        <Grid.Column textAlign="center">
+                            <Link to="/"><Image centered size="tiny" src={logo}/></Link>
+                            <HeaderSemantic inverted>PhysicsNobel</HeaderSemantic>
+                            {searchBar}
+                        </Grid.Column>
+                    </Grid>
+                </Segment>
+            )
+        } else {
+            return (
+                <Segment basic inverted size="small">
+                    <Grid columns="16">
+                        <Grid.Column mobile="4" computer="1">
+                            <Link to="/"><Image size="small" src={logo}/></Link>
+                        </Grid.Column>
+                        <Grid.Column mobile="4" computer="1">
+                            <HeaderSemantic inverted>PhysicsNobel</HeaderSemantic>
+                        </Grid.Column>
+                        <Grid.Column mobile="0" computer="9"/>
+                        <Grid.Column mobile="4" computer="3">
+                            {searchBar}
+                        </Grid.Column>
+                        <Grid.Column mobile="4" computer="2">
+                            <Link to="/"><Button>Home</Button></Link>
+                        </Grid.Column>
+                    </Grid>
+                </Segment>
+            );
+        }
     }
 }

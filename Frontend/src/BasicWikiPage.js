@@ -1,6 +1,6 @@
 import React from 'react'
 import wiki from 'wikijs'
-import {Loader} from 'semantic-ui-react'
+import {Loader,Segment} from 'semantic-ui-react'
 
 export default class BasicWikiPage extends React.Component{
     constructor(props){
@@ -23,8 +23,8 @@ export default class BasicWikiPage extends React.Component{
 
     render() {
         const {content} = this.state;
-        return(<div>
+        return(<Segment>
             {content!==null?content:<Loader active={true}/>}
-        </div>)
+        </Segment>)
     }
 }

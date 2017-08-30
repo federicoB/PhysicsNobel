@@ -1,6 +1,6 @@
 import React from 'react'
 import request from 'superagent'
-import {Image, Loader} from 'semantic-ui-react'
+import {Image, Loader,Segment} from 'semantic-ui-react'
 import annotator from 'annotator'
 import Cookies from 'js-cookie'
 
@@ -48,17 +48,17 @@ export default class LaureatePage extends React.Component {
             works = laureate.works.map(({title, URL}) => (<p key={URL}>{title} : {URL}</p>));
         }
         return (
-            <div>
+            <Segment>
                 {(laureate === null) ? <Loader active={true}/> :
-                    <div>
+                    <Segment>
                         <p>{laureate.name}</p>
                         <Image src={laureate.picture}/>
                         <p>{laureate.prizes[0]}</p>
                         <p>{laureate.biography}</p>
                         {works}
-                    </div>
+                    </Segment>
                 }
-            </div>
+            </Segment>
         )
     }
 }

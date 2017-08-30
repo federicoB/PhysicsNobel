@@ -12,7 +12,8 @@ class SearchBarNoRouter extends React.Component {
         this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.handleGenericSearch = this.handleGenericSearch.bind(this);
-        this.resultRenderer = ({ title }) => <Link to={"/pages/"+title} > {title} </Link>;
+        this.resultRenderer = ({ title }) =>
+            <Link to={"/pages/"+title} > {title} </Link>;
         this.resultRenderer.propTypes = {
             title: PropTypes.string,
         }
@@ -23,7 +24,7 @@ class SearchBarNoRouter extends React.Component {
     }
 
     resetComponent() {
-        this.setState({ isLoading: false, results: [], value: '' });
+        this.setState({ results: [], value: '' });
     }
 
     handleResultSelect(e, { result }){
@@ -38,7 +39,9 @@ class SearchBarNoRouter extends React.Component {
     }
 
     handleSearchChange(e, { value }) {
-        let laureates = this.props.laureates.map(({ name,picture,prizes })=>({title:name}));
+        let laureates = this.props.laureates.map(
+            ({ name,picture,prizes })=>({title:name})
+        );
         this.setState({
             value: value,
             results:laureates.filter(({title})=>title.startsWith(value))
@@ -46,10 +49,9 @@ class SearchBarNoRouter extends React.Component {
     }
 
     render() {
-        const {isLoading, value, results} = this.state;
+        const {value, results} = this.state;
         return (
             <Search
-                loading={isLoading}
                 onResultSelect={this.handleResultSelect}
                 onSearchChange={this.handleSearchChange}
                 onKeyDown={this.handleGenericSearch}

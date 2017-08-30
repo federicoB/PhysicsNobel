@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const BundleTracker = require('webpack-bundle-tracker')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
@@ -45,7 +46,8 @@ module.exports = {
         ]
     },
     plugins: [
-        new BundleTracker({filename: './webpack-stats.json'})
+        new BundleTracker({filename: './webpack-stats.json'}),
+        new HardSourceWebpackPlugin()
     ],
     externals: { //required by webpack-bundle-tracker
         "isomorphic-fetch": "fetch"

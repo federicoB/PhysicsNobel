@@ -1,3 +1,5 @@
+import request from 'superagent';
+
 export function login(email, password) {
     return request
         .post('/rest-auth/login/')

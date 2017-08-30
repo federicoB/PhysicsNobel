@@ -1,7 +1,7 @@
 import React from 'react'
 import wiki from 'wikijs'
 import {Link} from 'react-router-dom'
-import {Loader} from 'semantic-ui-react'
+import {Loader,Segment} from 'semantic-ui-react'
 
 export default class ResultsPage extends React.Component{
     constructor(props){
@@ -28,9 +28,9 @@ export default class ResultsPage extends React.Component{
         const resultsView = results.map((result)=>
             <p key={result}><Link  to={"/pages/"+result}>{result}</Link></p>)
         return (
-            <div>
+            <Segment>
             {(resultsView.length>0)?resultsView:<Loader active={true}/>}
-            </div>
+            </Segment>
     )
     }
 }

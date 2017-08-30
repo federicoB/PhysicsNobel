@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import '../semantic/dist/semantic.min.css';
-import request from 'superagent'
 import {BrowserRouter,Switch,Route} from 'react-router-dom'
 import {Loader} from "semantic-ui-react";
 
 import './style.css';
-import SearchBar from './SearchBar'
+
 import LaureatesGrid from './LaureatesGrid'
 import ResultsPage from './ResultsPage'
 import PageSwitcher from './PageSwitcher'
 import Header from './Header'
+import Footer from './Footer'
+import {getLaureates} from './NetworkRequests'
 
 class Application extends React.Component {
     constructor(props) {
@@ -21,6 +22,10 @@ class Application extends React.Component {
         };
         this.loginCarriedOut = this.loginCarriedOut.bind(this);
         this.setLaureates = this.setLaureates.bind(this);
+    }
+
+    componentDidMount() {
+        getLaureates().then(this.setLaureates);
     }
 
     loginCarriedOut(key) {
@@ -35,22 +40,24 @@ class Application extends React.Component {
 
     render() {
         const {laureates, user} = this.state;
-        const laureateLength = (laureates.length > 0);
+        const laureateGrid = ()=>  laureates.length > 0 ?
+            <LaureatesGrid laureates={laureates}/>
+            : null;
+        const header = (props)=> <Header laureates={laureates} {...props}/>
+        const pageSwitcher = (props)=> (
+            <PageSwitcher user={user} laureates={laureates} {...props}/>
+        );
         return (
             <div>
-                {laureateLength ?
-                    <Switch>
-                        <Route exact path="/" render={() => (
-                            <div>
-                                <SearchBar laureates={laureates}/>
-                                <LaureatesGrid laureates={laureates}/>
-                            </div>
-                        )}/>
-                        <Route exact path="/results/:query" component={ResultsPage}/>
-                        <Route path="/pages/:page"
-                               render={props => (<PageSwitcher {...props} user={user} laureates={laureates}/>)}/>
-                    </Switch> : <Loader active={true}/>}
-            </div>)
+                <Route path="/" component={header}/>
+                <Switch>
+                    <Route exact path="/" component={laureateGrid}/>
+                    <Route exact path="/results/:query" component={ResultsPage}/>
+                    <Route path="/pages/:page" component={pageSwitcher}/>
+                </Switch>
+                <Footer/>
+            </div>
+    )
     }
 }
 

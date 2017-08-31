@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
-const BundleTracker = require('webpack-bundle-tracker')
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+const BundleTracker = require('webpack-bundle-tracker');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),

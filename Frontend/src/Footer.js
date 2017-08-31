@@ -1,5 +1,6 @@
 import React from 'react'
-import {Container,Label,Image,Grid,Segment} from 'semantic-ui-react'
+import {Label, Image, Grid, Segment, Divider} from 'semantic-ui-react'
+import GridColumn from "semantic-ui-react/dist/es/collections/Grid/GridColumn";
 
 export default class Footer extends React.Component {
 
@@ -10,19 +11,27 @@ export default class Footer extends React.Component {
             "https://upload.wikimedia.org/wikipedia/commons/6/66/Wikidata-logo-en.svg",
             "https://assets.crossref.org/logo/crossref-logo-landscape-200.svg",
         ];
-        const imageViews = images.map((image)=>
+        const imageColumns = images.map((image) =>
             <Grid.Column key={image} verticalAlign="middle">
-                <Image size="tiny" src={image}/>
+                <Image size="small" centered src={image}/>
             </Grid.Column>
         );
         return (
             <Segment>
                 <Label attached='top left'>Made with:</Label>
-            <Grid columns={images.length} stackable={true}>
-                <Grid.Row centered={true}>
-                    {imageViews}
-                </Grid.Row>
+                <Grid centered columns={images.length + 4} stackable>
+                    {imageColumns}
+                    <Grid.Row only="mobile">
+                        <Divider hidden/>
+                    </Grid.Row>
             </Grid>
+                <Label attached='bottom left'>
+                    GPLv3 License, view on
+                    <a href="https://github.com/federicoB/PhysicsNobel"> github</a>
+                </Label>
+                <Label attached="bottom right">
+                    About
+                </Label>
             </Segment>
         )
     }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Grid, Loader, Button, Image, Segment, Header as HeaderSemantic} from 'semantic-ui-react'
+import {Grid, Loader, Menu, Button, Image, Segment, Header as HeaderSemantic} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import logo from './assets/atom_white.svg'
 
@@ -13,12 +13,16 @@ export default class Header extends React.Component {
         if (match.path === "/" && match.isExact) {
             return (
                 <Segment basic inverted size="massive">
-                    <Grid columns="2" centered>
-                        <Grid.Column textAlign="center">
+                    <Grid centered doubling>
+                        <Grid.Row>
                             <Link to="/"><Image centered size="tiny" src={logo}/></Link>
-                            <HeaderSemantic inverted>PhysicsNobel</HeaderSemantic>
-                            {searchBar}
-                        </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row>
+                            <HeaderSemantic inverted size="large">PhysicsNobel</HeaderSemantic>
+                        </Grid.Row>
+                        <Grid.Row>
+                                {searchBar}
+                        </Grid.Row>
                     </Grid>
                 </Segment>
             )

@@ -4,6 +4,8 @@ import {Image, Loader,Segment} from 'semantic-ui-react'
 import annotator from 'annotator'
 import Cookies from 'js-cookie'
 
+import WikiText from '../WikiText'
+
 export default class LaureatePage extends React.Component {
     constructor(props) {
         super(props);
@@ -54,7 +56,7 @@ export default class LaureatePage extends React.Component {
                         <p>{laureate.name}</p>
                         <Image src={laureate.picture}/>
                         <p>{laureate.prizes[0]}</p>
-                        <p>{laureate.biography}</p>
+                        <p><WikiText text={laureate.biography}/></p>
                         {works}
                     </Segment>
                 }

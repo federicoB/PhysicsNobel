@@ -36,7 +36,7 @@ export default class Header extends React.Component {
                         <Grid.Column mobile="4" computer="1">
                             <HeaderSemantic inverted>PhysicsNobel</HeaderSemantic>
                         </Grid.Column>
-                        <Grid.Column mobile="0" computer="9"/>
+                        <Grid.Column only="computer" computer="9"/>
                         <Grid.Column mobile="4" computer="3">
                             {searchBar}
                         </Grid.Column>

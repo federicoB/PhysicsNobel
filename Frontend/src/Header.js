@@ -15,7 +15,7 @@ export default class Header extends React.Component {
                 <Segment basic inverted size="massive">
                     <Grid centered doubling>
                         <Grid.Row>
-                            <Link to="/"><Image centered size="tiny" src={logo}/></Link>
+                            <Link to="/"><Image centered size="small" src={logo}/></Link>
                         </Grid.Row>
                         <Grid.Row>
                             <HeaderSemantic inverted size="large">PhysicsNobel</HeaderSemantic>

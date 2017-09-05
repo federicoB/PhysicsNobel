@@ -5,6 +5,10 @@ import annotator from 'annotator'
 import Cookies from 'js-cookie'
 
 import WikiText from '../WikiText'
+import LaureateInfo from './LaureateInfo'
+import PrizeInfo from './PrizeInfo'
+import Biography from './Biography'
+import LaureateWorks from './LaureateWorks'
 
 export default class LaureatePage extends React.Component {
     constructor(props) {
@@ -46,18 +50,15 @@ export default class LaureatePage extends React.Component {
 
         const {laureate} = this.state;
         let works;
-        if (laureate !== null) {
-            works = laureate.works.map(({title, URL}) => (<p key={URL}>{title} : {URL}</p>));
-        }
+
         return (
             <Segment>
                 {(laureate === null) ? <Loader active={true}/> :
                     <Segment>
-                        <p>{laureate.name}</p>
-                        <Image src={laureate.picture}/>
-                        <p>{laureate.prizes[0]}</p>
-                        <p><WikiText text={laureate.biography}/></p>
-                        {works}
+                        <LaureateInfo name={laureate.name} picture={laureate.picture}/>
+                        <PrizeInfo prizes={laureate.prizes}/>
+                        <Biography biography={laurate.biography}/>
+                        <LaureateWorks works={laureate.works}/>
                     </Segment>
                 }
             </Segment>

@@ -49,7 +49,6 @@ export default class LaureatePage extends React.Component {
     render() {
 
         const {laureate} = this.state;
-        let works;
 
         return (
             <Segment>
@@ -57,7 +56,7 @@ export default class LaureatePage extends React.Component {
                     <Segment>
                         <LaureateInfo name={laureate.name} picture={laureate.picture}/>
                         <PrizeInfo prizes={laureate.prizes}/>
-                        <Biography biography={laurate.biography}/>
+                        <Biography biography={laureate.biography}/>
                         <LaureateWorks works={laureate.works}/>
                     </Segment>
                 }

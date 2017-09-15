@@ -40,7 +40,7 @@ class Application extends React.Component {
 
     render() {
         const {laureates, user} = this.state;
-        const laureateGrid = ()=>  laureates.length > 0 ?
+        const laureateGrid = () => (laureates !== null) ?
             <LaureatesGrid laureates={laureates}/>
             : null;
         const header = (props) => <Header laureates={laureates} {...props}/>;

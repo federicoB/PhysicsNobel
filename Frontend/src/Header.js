@@ -21,7 +21,7 @@ export default class Header extends React.Component {
                             <HeaderSemantic inverted size="large">PhysicsNobel</HeaderSemantic>
                         </Grid.Row>
                         <Grid.Row>
-                                {searchBar}
+                            {searchBar}
                         </Grid.Row>
                     </Grid>
                 </Segment>
@@ -30,17 +30,18 @@ export default class Header extends React.Component {
             return (
                 <Segment basic inverted size="small">
                     <Grid columns="16">
-                        <Grid.Column mobile="4" computer="1">
+                        <Grid.Column mobile="3" tablet="2" computer="1" verticalAlign="middle">
                             <Link to="/"><Image size="small" src={logo}/></Link>
                         </Grid.Column>
-                        <Grid.Column mobile="4" computer="1">
+                        <Grid.Column
+                            only="computer tablet" tablet="5" computer="1" verticalAlign="middle">
                             <HeaderSemantic inverted>PhysicsNobel</HeaderSemantic>
                         </Grid.Column>
                         <Grid.Column only="computer" computer="9"/>
-                        <Grid.Column mobile="4" computer="3">
+                        <Grid.Column mobile="8" tablet="5" computer="3" verticalAlign="middle">
                             {searchBar}
                         </Grid.Column>
-                        <Grid.Column mobile="4" computer="2">
+                        <Grid.Column mobile="4" tablet="4" computer="2" verticalAlign="middle">
                             <Link to="/"><Button>Home</Button></Link>
                         </Grid.Column>
                     </Grid>

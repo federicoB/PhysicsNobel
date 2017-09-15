@@ -36,7 +36,10 @@ class Work(object):
 
     @staticmethod
     def getFromHabaneroItem(item):
-        return Work(item['container-title'][0], item['URL'])
+        if 'title' in item.keys() and len(item['title'])>0:
+            return Work(item['title'][0], item['URL'])
+        else:
+            return None
 
     @staticmethod
     def getWorks(name):

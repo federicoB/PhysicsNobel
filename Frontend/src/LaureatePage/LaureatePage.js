@@ -1,14 +1,14 @@
 import React from 'react'
 import request from 'superagent'
-import {Image, Loader,Segment} from 'semantic-ui-react'
+import {Loader, Segment} from 'semantic-ui-react'
 import annotator from 'annotator'
 import Cookies from 'js-cookie'
 
-import WikiText from '../WikiText'
 import LaureateInfo from './LaureateInfo'
 import PrizeInfo from './PrizeInfo'
 import Biography from './Biography'
 import LaureateWorks from './LaureateWorks'
+import {getLaureateInfo} from '../NetworkRequests'
 
 export default class LaureatePage extends React.Component {
     constructor(props) {
@@ -19,7 +19,9 @@ export default class LaureatePage extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchLaureateInfo(this.props.name);
+        getLaureateInfo(this.props.name).then((laureate) => {
+            this.setState({laureate: laureate})
+        });
         this.app = new annotator.App();
         this.app.include(annotator.ui.main);
         this.app.include(annotator.authz.acl);
@@ -36,16 +38,6 @@ export default class LaureatePage extends React.Component {
         }
     }
 
-    fetchLaureateInfo(name) {
-        request
-            .get('/api/laureates/' + name + "/")
-            .set('Accept', 'application/json')
-            .end((err, res) => {
-                this.setState(
-                    {laureate: res.body})
-            });
-    }
-
     render() {
 
         const {laureate} = this.state;
@@ -53,7 +45,7 @@ export default class LaureatePage extends React.Component {
         return (
             <Segment>
                 {(laureate === null) ? <Loader active={true}/> :
-                    <Segment>
+                    <Segment basic>
                         <LaureateInfo name={laureate.name} picture={laureate.picture}/>
                         <PrizeInfo prizes={laureate.prizes}/>
                         <Biography biography={laureate.biography}/>

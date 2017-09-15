@@ -18,7 +18,6 @@ export default class WikiText extends React.Component {
                 } else accumulator.push(element)
                 return accumulator;
             }, []);
-        console.log(newText);
         return (<Container text>{newText}</Container>);
     }
 }

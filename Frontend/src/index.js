@@ -17,7 +17,7 @@ class Application extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            laureates: [],
+            laureates: null,
             user: null,
         };
         this.loginCarriedOut = this.loginCarriedOut.bind(this);
@@ -43,7 +43,7 @@ class Application extends React.Component {
         const laureateGrid = ()=>  laureates.length > 0 ?
             <LaureatesGrid laureates={laureates}/>
             : null;
-        const header = (props)=> <Header laureates={laureates} {...props}/>
+        const header = (props) => <Header laureates={laureates} {...props}/>;
         const pageSwitcher = (props)=> (
             <PageSwitcher user={user} laureates={laureates} {...props}/>
         );

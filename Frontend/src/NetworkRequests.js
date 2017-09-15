@@ -13,3 +13,10 @@ export function getLaureates() {
         .set('Accept', 'application/json')
         .then((response) => response.body)
 }
+
+export function getLaureateInfo(name) {
+    return request
+        .get('/api/laureates/' + name + "/")
+        .set('Accept', 'application/json')
+        .then((response) => response.body)
+}

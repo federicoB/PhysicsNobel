@@ -1,8 +1,7 @@
 import React from 'react'
 import wiki from 'wikijs'
-import {Loader, Segment, Header} from 'semantic-ui-react'
+import {Loader, Segment, Header, Container} from 'semantic-ui-react'
 import WikiText from './WikiText'
-import Container from "semantic-ui-react/dist/es/elements/Container/Container";
 
 export default class BasicWikiPage extends React.Component{
     constructor(props){

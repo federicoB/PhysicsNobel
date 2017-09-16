@@ -1,6 +1,6 @@
 import React from 'react';
-import {Grid, Image, Dimmer, Segment} from 'semantic-ui-react'
-import Header from "semantic-ui-react/dist/es/elements/Header/Header";
+import {Grid, Image, Dimmer, Segment, Header} from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
 
 export default class LaureatesGrid extends React.Component {
     render() {
@@ -51,14 +51,16 @@ class LaureateCard extends React.Component {
         return (
             <Dimmer.Dimmable as={Segment} dimmed={active}
                              onMouseEnter={this.handleShow}
-                             onMouseLeave={this.handleHide}
-            >
+                             onMouseLeave={this.handleHide}>
+                <Link to={"/pages/"+name}>
                 <Dimmer active={active}>
-                    <Header as='h2' inverted>
-                        {name}
-                    </Header>
-                </Dimmer>
 
+                        <Header as='h2' inverted>
+                            {name}
+                        </Header>
+
+                </Dimmer>
+                </Link>
                 <Image size='medium' src={picture}/>
             </Dimmer.Dimmable>
         )

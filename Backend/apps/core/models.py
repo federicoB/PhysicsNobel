@@ -73,7 +73,7 @@ class Prize:
         laureates = [Laureate(laureate['firstname'] + " " + laureate['surname']) for laureate in laureatesRaw]
         # all motivation are equal to only pick the first one
         # truncate beginning "for" word
-        motivation = laureatesRaw[0]['motivation'][5:]
+        motivation = laureatesRaw[0]['motivation'][5:-1]
         worksData = crossref.getMotivationWorksData(motivation)
         works = [Work.getFromHabaneroItem(item) for item in worksData]
         return Prize(year, laureates, motivation, works)

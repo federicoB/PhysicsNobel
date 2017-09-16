@@ -46,7 +46,7 @@ export default class LaureatePage extends React.Component {
             <Segment>
                 <LaureateInfo name={laureate.name} picture={laureate.picture}
                               prizes={laureate.prizes}/>
-                <PrizeInfo prizes={laureate.prizes}/>
+                <PrizeInfo prizes={laureate.prizes} name={laureate.name}/>
                 <Biography biography={laureate.biography}/>
                 <LaureateWorks works={laureate.works}/>
             </Segment>;

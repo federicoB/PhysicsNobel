@@ -1,9 +1,12 @@
 import React from 'react'
-import {Segment} from "semantic-ui-react";
+import {Container} from 'semantic-ui-react'
+
+import WorksComponent from './WorksComponent';
 
 export default class LaureateWorks extends React.Component {
     render() {
-        const works = this.props.works.map(({title, URL}) => (<p key={URL}>{title} : {URL}</p>));
-        return (<Segment>{works}</Segment>);
+        return (<Container text>
+                    <WorksComponent works={this.props.works} />
+                </Container>);
     }
 }

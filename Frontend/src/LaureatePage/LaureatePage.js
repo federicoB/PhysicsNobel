@@ -39,12 +39,13 @@ export default class LaureatePage extends React.Component {
     }
 
     render() {
-
         const {laureate} = this.state;
+
         return (laureate === null) ?
             <Loader active={true}/> :
             <Segment>
-                <LaureateInfo name={laureate.name} picture={laureate.picture}/>
+                <LaureateInfo name={laureate.name} picture={laureate.picture}
+                              prizes={laureate.prizes}/>
                 <PrizeInfo prizes={laureate.prizes}/>
                 <Biography biography={laureate.biography}/>
                 <LaureateWorks works={laureate.works}/>

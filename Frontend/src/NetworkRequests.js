@@ -20,3 +20,10 @@ export function getLaureateInfo(name) {
         .set('Accept', 'application/json')
         .then((response) => response.body)
 }
+
+export function getPrizeInfo(prizeURl) {
+    return request
+        .get(prizeURl)
+        .set('Accept', 'application/json')
+        .then((response) => response.body)
+}

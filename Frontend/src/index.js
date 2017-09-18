@@ -11,6 +11,8 @@ import ResultsPage from './ResultsPage'
 import PageSwitcher from './PageSwitcher'
 import Header from './Header'
 import Footer from './Footer'
+import SignInPage from './SignInPage'
+import LogInpage from './LogInPage'
 import {getLaureates} from './NetworkRequests'
 
 class Application extends React.Component {
@@ -52,6 +54,8 @@ class Application extends React.Component {
                 <Route path="/" component={header}/>
                 <Switch>
                     <Route exact path="/" component={laureateGrid}/>
+                    <Route exact path="/signin" component={SignInPage}/>
+                    <Route exact path="/login" component={LogInpage}/>
                     <Route exact path="/results/:query" component={ResultsPage}/>
                     <Route path="/pages/:page" component={pageSwitcher}/>
                 </Switch>

@@ -1,6 +1,5 @@
 import React from 'react'
 import {Label, Image, Grid, Segment, Divider} from 'semantic-ui-react'
-import GridColumn from "semantic-ui-react/dist/es/collections/Grid/GridColumn";
 
 export default class Footer extends React.Component {
 

@@ -12,8 +12,8 @@ export default class Header extends React.Component {
             <SearchBar laureates={laureates}/> : <Loader active={true}/>;
         if (match.path === "/" && match.isExact) {
             return (
-                <Segment basic inverted size="massive">
-                    <Grid centered doubling>
+                <Segment basic inverted size="massive" attached="top">
+                    <Grid centered>
                         <Grid.Row>
                             <Link to="/"><Image centered size="small" src={logo}/></Link>
                         </Grid.Row>
@@ -28,9 +28,10 @@ export default class Header extends React.Component {
             )
         } else {
             return (
-                <Segment basic inverted size="small">
+                <Segment basic inverted size="small" attached="top">
                     <Grid columns="16">
-                        <Grid.Column mobile="3" tablet="2" computer="1" verticalAlign="middle">
+                        <Grid.Column mobile="3" tablet="2" computer="1"
+                                     verticalAlign="middle">
                             <Link to="/"><Image size="small" src={logo}/></Link>
                         </Grid.Column>
                         <Grid.Column
@@ -41,7 +42,8 @@ export default class Header extends React.Component {
                         <Grid.Column mobile="8" tablet="5" computer="3" verticalAlign="middle">
                             {searchBar}
                         </Grid.Column>
-                        <Grid.Column mobile="4" tablet="4" computer="2" verticalAlign="middle">
+                        <Grid.Column mobile="5" tablet="4" computer="2"
+                                     verticalAlign="middle">
                             <Link to="/"><Button>Home</Button></Link>
                         </Grid.Column>
                     </Grid>

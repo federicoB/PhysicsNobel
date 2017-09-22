@@ -17,14 +17,14 @@ export default class Footer extends React.Component {
             </Grid.Column>
         );
         return (
-            <Segment>
+            <Segment attached="bottom">
                 <Label attached='top left'>Made with:</Label>
                 <Grid centered columns={images.length + 4} stackable>
                     {imageColumns}
                     <Grid.Row only="mobile">
                         <Divider hidden/>
                     </Grid.Row>
-            </Grid>
+                </Grid>
                 <Label attached='bottom left'>
                     GPLv3 License, view on
                     <a href="https://github.com/federicoB/PhysicsNobel"> github</a>

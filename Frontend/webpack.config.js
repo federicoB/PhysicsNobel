@@ -4,8 +4,7 @@ const BundleTracker = require('webpack-bundle-tracker');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 module.exports = {
-    context: path.resolve(__dirname, 'src'),
-    entry: "./index.js",
+    entry: path.resolve(__dirname, 'src/index.js'),
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: "bundle.js",
@@ -29,10 +28,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    {loader: 'style-loader'},
-                    {loader: 'css-loader'}
-                ]
+                use: ['style-loader', 'css-loader']
 
             },
             { //i had problems with url-loader so i use only file-loader for now.

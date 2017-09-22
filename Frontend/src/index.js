@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../semantic/dist/semantic.min.css';
-import {BrowserRouter,Switch,Route} from 'react-router-dom'
-import {Loader} from "semantic-ui-react";
+import 'semantic-ui-css/semantic.min.css';
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
 
+//import global css rules
 import './style.css';
 
 import LaureatesGrid from './LaureatesGrid'
@@ -46,7 +46,7 @@ class Application extends React.Component {
             <LaureatesGrid laureates={laureates}/>
             : null;
         const header = (props) => <Header laureates={laureates} {...props}/>;
-        const pageSwitcher = (props)=> (
+        const pageSwitcher = (props) => (
             <PageSwitcher user={user} laureates={laureates} {...props}/>
         );
         return (
@@ -61,7 +61,7 @@ class Application extends React.Component {
                 </Switch>
                 <Footer/>
             </div>
-    )
+        )
     }
 }
 

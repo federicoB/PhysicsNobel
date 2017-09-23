@@ -43,12 +43,12 @@ export default class LaureatePage extends React.Component {
 
         return (laureate === null) ?
             <Loader active={true}/> :
-            <Segment>
+            <div style={{margin: 'auto'}}>
                 <LaureateInfo name={laureate.name} picture={laureate.picture}
                               prizes={laureate.prizes}/>
                 <PrizeInfo prizes={laureate.prizes} name={laureate.name}/>
                 <Biography biography={laureate.biography}/>
                 <LaureateWorks works={laureate.works}/>
-            </Segment>;
+            </div>;
     }
 }

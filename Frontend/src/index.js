@@ -57,6 +57,7 @@ class Application extends React.Component {
             flex: '1',
             minHeight: '600px',
             display: 'flex',
+            paddingTop: '10vh',
         };
         return (
             <div style={siteContainerStyle}>

@@ -2,24 +2,45 @@ import React from 'react';
 import {Grid, Image, Dimmer, Segment, Header} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
+const numberOfLaureateShown = 20;
+const numberOfMaxColumn = 5;
+
 export default class LaureatesGrid extends React.Component {
     render() {
-        const start = Math.random()*(this.props.laureates.length-20);
-        const laureateslice = this.props.laureates.slice(start,start+20);
+        //get a random slice of all laureates
+        //get a random number between 0 and number of laureates minus the number of laureates to show
+        const start = Math.random() * (this.props.laureates.length - numberOfLaureateShown);
+        //get the laureate slice from laureate list
+        const laureateslice = this.props.laureates.slice(start, start + numberOfLaureateShown);
+        //create list of cards components showing info about laureates
         let cards = laureateslice.map(({name, picture, prizes}) => (
-            <Grid.Column key={name}>
                 <LaureateCard
                     key={name}
                     picture={picture}
                     name={name}
                     prizes={prizes}
                 />
-            </Grid.Column>
         ));
+        let component = [];
+        let step = Math.floor(numberOfLaureateShown / numberOfMaxColumn);
+        for (let i = 0; i <= numberOfLaureateShown - step; i = i + step) {
+            const slice = cards.slice(i, i + step);
+            component.push(<div key={i} style={{
+                width: '300px',
+                padding: '1vw'
+            }}>
+                {slice}
+            </div>)
+        }
         return (
-            <Grid columns="4" stackable>
-                {cards}
-            </Grid>
+            <div style={{
+                display: 'flex',
+                flexFlow: 'row wrap',
+                margin: 'auto',
+                justifyContent: 'center',
+            }}>
+                {component}
+            </div>
         )
     }
 }
@@ -52,16 +73,16 @@ class LaureateCard extends React.Component {
             <Dimmer.Dimmable as={Segment} dimmed={active}
                              onMouseEnter={this.handleShow}
                              onMouseLeave={this.handleHide}>
-                <Link to={"/pages/"+name}>
-                <Dimmer active={active}>
+                <Link to={"/pages/" + name}>
+                    <Dimmer active={active}>
 
                         <Header as='h2' inverted>
                             {name}
                         </Header>
 
-                </Dimmer>
+                    </Dimmer>
                 </Link>
-                <Image size='medium' src={picture}/>
+                <img className="ui medium image" src={picture}/>
             </Dimmer.Dimmable>
         )
     }

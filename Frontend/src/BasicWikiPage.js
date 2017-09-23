@@ -25,9 +25,11 @@ export default class BasicWikiPage extends React.Component{
 
     render() {
         const {content} = this.state;
-        return(<Segment>
-            <Header size="large">{this.props.name}</Header>
-            {content !== null ? <WikiText text={content}/> : <Loader active={true}/>}
-        </Segment>)
+        return (
+            <div style={{margin: 'auto'}}>
+                <Header size="large">{this.props.name}</Header>
+                {content !== null ? <WikiText text={content}/> : <Loader active={true}/>}
+            </div>
+        )
     }
 }

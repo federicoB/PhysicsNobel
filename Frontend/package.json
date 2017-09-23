@@ -30,7 +30,8 @@
   },
   "scripts": {
     "start": "webpack --watch",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "stats": "webpack --json"
   },
   "devDependencies": {
     "webpack-dev-server": "^2.7.1"

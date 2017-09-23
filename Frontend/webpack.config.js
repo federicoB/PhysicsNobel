@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 const BundleTracker = require('webpack-bundle-tracker');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
@@ -47,5 +46,6 @@ module.exports = {
     ],
     externals: { //required by webpack-bundle-tracker
         "isomorphic-fetch": "fetch"
-    }
+    },
+    devtool: 'source-map'
 };

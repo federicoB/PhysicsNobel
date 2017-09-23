@@ -13,7 +13,7 @@ function LoginSignUpContainer(props) {
     );
 }
 
-export default class LogInPage extends React.Component {
+export class LogInPage extends React.Component {
     constructor(props) {
         super(props);
     }

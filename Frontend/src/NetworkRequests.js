@@ -1,10 +1,13 @@
 import request from 'superagent';
+import Cookies from 'js-cookie'
 
 export function login(email, password) {
     return request
         .post('/rest-auth/login/')
         .data({email: email, password: password})
-        .then((response) => response.body.key)
+        .then(
+            (response) => (Cookies.get("csrftoken"))
+        )
 }
 
 export function getLaureates() {

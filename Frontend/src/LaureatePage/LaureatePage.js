@@ -1,8 +1,6 @@
 import React from 'react'
-import request from 'superagent'
-import {Loader, Segment} from 'semantic-ui-react'
+import {Loader} from 'semantic-ui-react'
 import annotator from 'annotator'
-import Cookies from 'js-cookie'
 
 import LaureateInfo from './LaureateInfo'
 import PrizeInfo from './PrizeInfo'
@@ -10,31 +8,53 @@ import Biography from './Biography'
 import LaureateWorks from './LaureateWorks'
 import {getLaureateInfo} from '../NetworkRequests'
 
+/**
+ * Component showing detailed info about a laureate
+ */
 export default class LaureatePage extends React.Component {
     constructor(props) {
         super(props);
+        //the only item of the state of a LaureatePage is the laureate to show
         this.state = {
-            laureate: null
+            laureate: null,
         };
+        //TODO lazy load annotator
+        //setup annotator library
+        this.app = new annotator.App();
+        //include annotator user interface
+        this.app.include(annotator.ui.main);
+        //include annotator access control list
+        //TODO check if really needed
+        this.app.include(annotator.authz.acl);
+        //include the backend remote storage
+        this.app.include(annotator.storage.http, {prefix: "/annotations/api"});
     }
 
     componentDidMount() {
-        getLaureateInfo(this.props.name).then((laureate) => {
-            this.setState({laureate: laureate})
-        });
-        this.app = new annotator.App();
-        this.app.include(annotator.ui.main);
-        this.app.include(annotator.authz.acl);
-        this.app.include(annotator.storage.http, {prefix: "/annotations/api"});
-        if (Cookies.get("csrftoken")) {
-            const crsfttoken = Cookies.get("csrftoken");
-            this.app.start().then(() => {
-                this.app.ident.identity = 'testPhysicsNobel';
-                this.app.annotations.store.setHeader('X-CSRFToken', crsfttoken);
-                this.app.annotations.load();
-
+        //if the laureate info has not been fetched yet
+        if (this.state.laureate === null) {
+            //call network request for getting laureate info and set the state
+            getLaureateInfo(this.props.name).then((laureate) => {
+                this.setState({laureate: laureate})
             });
+        } else {
+            //TODO move to callback of successful login
+            //if the anti-Cross-Site-Request-Forgery token given by django is found in the token
+            if (Cookies.get("csrftoken")) {
+                //read the anti-crsf token
+                const crsfttoken = Cookies.get("csrftoken");
+                //start annotator
+                this.app.start().then(() => {
+                    //TODO change to user name
+                    //set identity
+                    this.app.ident.identity = 'testPhysicsNobel';
+                    //set header for CDRF token protection
+                    this.app.annotations.store.setHeader('X-CSRFToken', crsfttoken);
+                    //load annotation from store
+                    this.app.annotations.load();
+                });
 
+            }
         }
     }
 

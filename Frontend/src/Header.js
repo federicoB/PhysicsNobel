@@ -1,33 +1,64 @@
 import React from 'react'
-import {Grid, Loader, Menu, Button, Image, Segment, Header as HeaderSemantic} from 'semantic-ui-react'
+import {
+    Grid,
+    Loader,
+    Label,
+    Dropdown,
+    Responsive,
+    Icon,
+    Button,
+    Image,
+    Segment,
+    Header as HeaderSemantic
+} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
-import logo from './assets/atom_white.svg'
+import {logOut} from "./NetworkRequests"
 
+import logo from './assets/atom_white.svg'
+import backgroud from './assets/background.jpg'
 import SearchBar from './SearchBar'
 
 export default class Header extends React.Component {
+    constructor(props) {
+        super(props);
+        this.logOut = this.logOut.bind(this);
+    }
+
+    logOut() {
+        logOut().then(
+            () => this.props.logoutSuccess()
+        )
+    }
+
     render() {
-        const {laureates, match} = this.props;
+        const {laureates, match, user} = this.props;
         const searchBar = laureates !== null ?
             <SearchBar laureates={laureates}/> : <Loader active={true}/>;
         if (match.path === "/" && match.isExact) {
+            //Home page header
             return (
-                <Segment basic inverted size="massive" attached="top">
-                    <Grid centered>
-                        <Grid.Row>
+                <div className="basic inverted massive top attached"
+                     style={{
+                         backgroundImage: "url(" + backgroud + ")",
+                         backgroundSize: 'cover'
+                     }}>
+                    <UserMenu user={user} logOut={this.logOut}/>
+                    <Grid centered stackable columns="16">
+                        <Grid.Column width="16">
                             <Link to="/"><Image centered size="small" src={logo}/></Link>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <HeaderSemantic inverted size="large">PhysicsNobel</HeaderSemantic>
-                        </Grid.Row>
-                        <Grid.Row>
+                        </Grid.Column>
+                        <Grid.Column width="16">
+                            <HeaderSemantic inverted textAlign="center" size="large">PhysicsNobel</HeaderSemantic>
+                        </Grid.Column>
+                        <Grid.Column mobile="14" tablet="8" computer="4">
                             {searchBar}
-                        </Grid.Row>
+                        </Grid.Column>
                     </Grid>
-                </Segment>
+                </div>
             )
         } else {
             return (
+                //Sub pages header
                 <Segment basic inverted size="small" attached="top">
                     <Grid columns="16">
                         <Grid.Column mobile="3" tablet="2" computer="1"
@@ -45,6 +76,7 @@ export default class Header extends React.Component {
                         <Grid.Column mobile="5" tablet="4" computer="2"
                                      verticalAlign="middle">
                             <Link to="/"><Button>Home</Button></Link>
+                            {user !== null ? <Icon name="user"/> : null}
                         </Grid.Column>
                     </Grid>
                 </Segment>
@@ -52,3 +84,40 @@ export default class Header extends React.Component {
         }
     }
 }
+
+class UserMenu extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false
+        }
+    }
+
+    render() {
+        const {user} = this.props;
+        if (user !== null) return (
+            <Responsive {...Responsive.onlyMobile} >
+                <i className="circular user icon black"
+                   style={{backgroundColor: 'white', position: 'relative', left: '80%'}}
+                   onClick={() => this.setState((prevstate) => ({open: !prevstate.open}))}>
+                    <Dropdown open={this.state.open}>
+                        <Dropdown.Menu className='left'>
+                            <Dropdown.Item text={user.username}/>
+                            <Dropdown.Item text="Log out" icon="log out" onClick={this.props.logOut}/>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </i>
+            </Responsive>
+        )
+        else return null;
+    }
+}
+
+/*<Responsive minWidth={Responsive.onlyTablet.minWidth} >
+                {user.username}
+                <Dropdown>
+                    <Dropdown.Menu className='left'>
+                        <Dropdown.Item text="Log out" icon="log out" onClick={props.logOut}/>
+                    </Dropdown.Menu>
+                </Dropdown>
+            </Responsive>*/

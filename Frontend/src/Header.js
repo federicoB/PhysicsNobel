@@ -1,14 +1,6 @@
 import React from 'react'
 import {
-    Grid,
-    Loader,
-    Label,
-    Dropdown,
-    Responsive,
-    Icon,
-    Button,
-    Image,
-    Segment,
+    Grid, Loader, Menu, Label, Responsive, Dropdown, Icon, Button, Image, Segment,
     Header as HeaderSemantic
 } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
@@ -40,9 +32,14 @@ export default class Header extends React.Component {
                 <div className="basic inverted massive top attached"
                      style={{
                          backgroundImage: "url(" + backgroud + ")",
-                         backgroundSize: 'cover'
+                         backgroundSize: 'cover',
+                         padding: '3vh'
                      }}>
-                    <UserMenu user={user} logOut={this.logOut}/>
+                    <UserMenu user={user} logOut={this.logOut}
+                              style={{
+                                  position: 'absolute',
+                                  right: '1vw', top: '1vh', zIndex: 1
+                              }}/>
                     <Grid centered stackable columns="16">
                         <Grid.Column width="16">
                             <Link to="/"><Image centered size="small" src={logo}/></Link>
@@ -69,14 +66,18 @@ export default class Header extends React.Component {
                             only="computer tablet" tablet="5" computer="1" verticalAlign="middle">
                             <HeaderSemantic inverted>PhysicsNobel</HeaderSemantic>
                         </Grid.Column>
-                        <Grid.Column only="computer" computer="9"/>
-                        <Grid.Column mobile="8" tablet="5" computer="3" verticalAlign="middle">
+                        <Grid.Column only="computer" computer="6"/>
+                        <Grid.Column mobile="8" tablet="5" computer="3" verticalAlign="middle"
+                                     textAlign="right">
                             {searchBar}
                         </Grid.Column>
-                        <Grid.Column mobile="5" tablet="4" computer="2"
-                                     verticalAlign="middle">
-                            <Link to="/"><Button>Home</Button></Link>
-                            {user !== null ? <Icon name="user"/> : null}
+                        <Grid.Column mobile="5" tablet="4" computer="5"
+                                     verticalAlign="middle" textAlign="right">
+                            <UserMenu user={user} logOut={this.logOut}>
+                                <Menu.Item>
+                                    <Link to="/">Home</Link>
+                                </Menu.Item>
+                            </UserMenu>
                         </Grid.Column>
                     </Grid>
                 </Segment>
@@ -90,34 +91,88 @@ class UserMenu extends React.Component {
         super(props);
         this.state = {
             open: false
-        }
+        };
+        this.toggleOpen = this.toggleOpen.bind(this);
+    }
+
+    toggleOpen() {
+        this.setState((prevstate) => ({open: !prevstate.open}))
     }
 
     render() {
-        const {user} = this.props;
+        const {user, logOut, style, children} = this.props;
+        const {open} = this.state;
+        //TODO with react 16 DRY up the not logged in case
         if (user !== null) return (
-            <Responsive {...Responsive.onlyMobile} >
-                <i className="circular user icon black"
-                   style={{backgroundColor: 'white', position: 'relative', left: '80%'}}
-                   onClick={() => this.setState((prevstate) => ({open: !prevstate.open}))}>
-                    <Dropdown open={this.state.open}>
-                        <Dropdown.Menu className='left'>
-                            <Dropdown.Item text={user.username}/>
-                            <Dropdown.Item text="Log out" icon="log out" onClick={this.props.logOut}/>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </i>
-            </Responsive>
-        )
-        else return null;
+            <div style={style}>
+                <Responsive {...Responsive.onlyMobile} >
+                    <i className="circular user icon black"
+                       style={{backgroundColor: 'white'}}
+                       onClick={this.toggleOpen}>
+                        <RevealMenuLogout open={open} logOut={logOut}>
+                            <Menu.Item>{user.username}</Menu.Item>
+                        </RevealMenuLogout>
+                    </i>
+                </Responsive>
+                <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+                    <Label onClick={this.toggleOpen}>
+                        <Icon name="user"/>
+                        {user.username}
+                        <RevealMenuLogout open={open} logOut={logOut}/>
+                    </Label>
+                </Responsive>
+            </div>
+        );
+        else return (
+            <div style={style}>
+                <Responsive {...Responsive.onlyMobile}>
+                    <i className="circular user icon black"
+                       style={{backgroundColor: 'white'}}
+                       onClick={this.toggleOpen}>
+                        <RevealMenu open={open}>
+                            <Menu.Item>
+                                <Link to="/login">Log in</Link>
+                            </Menu.Item>
+                            <Menu.Item>
+                                <Link to="/signup">Sign up</Link>
+                            </Menu.Item>
+                        </RevealMenu>
+                    </i>
+                </Responsive>
+                <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+                    <Menu compact>
+                        {children}
+                        <Menu.Item>
+                            <Link to="/login">Log in</Link>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Link to="/signup">Sign up</Link>
+                        </Menu.Item>
+                    </Menu>
+                </Responsive>
+            </div>
+        );
     }
 }
 
-/*<Responsive minWidth={Responsive.onlyTablet.minWidth} >
-                {user.username}
-                <Dropdown>
-                    <Dropdown.Menu className='left'>
-                        <Dropdown.Item text="Log out" icon="log out" onClick={props.logOut}/>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </Responsive>*/
+function RevealMenu(props) {
+    if (props.open) return (
+        <div className="ui vertical menu" style={{
+            position: 'absolute',
+            right: '3vw', top: '3vh'
+        }}>
+            {props.children}
+        </div>
+    );
+    else return null;
+}
+
+function RevealMenuLogout(props) {
+    return (<RevealMenu open={props.open}>
+        {props.children}
+        <Menu.Item onClick={props.logOut}>
+            <Icon name="log out"/>
+            Log out
+        </Menu.Item>
+    </RevealMenu>)
+}

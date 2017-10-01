@@ -73,7 +73,13 @@ class Application extends React.Component {
     getLoggedUserInfo() {
         if (sessionStorage.getItem('token') !== null) {
             getLoggedUserInfo()
-                .then((response) => this.setState({user: {username: response.body.username}}))
+                .then((response) => this.setState({
+                    user: {
+                        username: response.body.username,
+                        crsfToken: Cookies.get("csrftoken"),
+                        token: sessionStorage.getItem('token')
+                    }
+                }))
         }
     }
 

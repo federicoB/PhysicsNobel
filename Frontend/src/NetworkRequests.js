@@ -19,7 +19,7 @@ export function logOut() {
 
 export function getLoggedUserInfo() {
     return request
-        .get("rest-auth/user/")
+        .get("/rest-auth/user/")
         .set('Authorization', "Token " + sessionStorage.getItem('token'))
 }
 

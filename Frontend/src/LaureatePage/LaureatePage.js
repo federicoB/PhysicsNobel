@@ -31,31 +31,23 @@ export default class LaureatePage extends React.Component {
     }
 
     componentDidMount() {
-        //if the laureate info has not been fetched yet
-        if (this.state.laureate === null) {
-            //call network request for getting laureate info and set the state
-            getLaureateInfo(this.props.name).then((laureate) => {
-                this.setState({laureate: laureate})
-            });
-        } else {
-            //TODO move to callback of successful login
-            //if the anti-Cross-Site-Request-Forgery token given by django is found in the token
-            if (Cookies.get("csrftoken")) {
-                //read the anti-crsf token
-                const crsfttoken = Cookies.get("csrftoken");
-                //start annotator
-                this.app.start().then(() => {
-                    //TODO change to user name
+        //call network request for getting laureate info and set the state
+        getLaureateInfo(this.props.name).then((laureate) => {
+            this.setState({laureate: laureate})//start annotator
+            this.app.start().then(() => {
+                if (this.props.user !== null) {
+                    const {user} = this.props;
                     //set identity
-                    this.app.ident.identity = 'testPhysicsNobel';
+                    this.app.ident.identity = user.username;
                     //set header for CDRF token protection
-                    this.app.annotations.store.setHeader('X-CSRFToken', crsfttoken);
-                    //load annotation from store
-                    this.app.annotations.load();
-                });
-
-            }
-        }
+                    this.app.annotations.store.setHeader('X-CSRFToken', user.crsfToken);
+                    this.app.annotations.store.setHeader('Authorization',
+                        "Token " + user.token);
+                }
+                //load annotation from store
+                this.app.annotations.load();
+            });
+        });
     }
 
     render() {

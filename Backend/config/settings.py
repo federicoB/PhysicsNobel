@@ -147,6 +147,10 @@ REST_FRAMEWORK = {
     )
 }
 
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'apps.core.serializer.RegisterSerializer',
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 

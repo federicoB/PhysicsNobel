@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, Group
 from allauth.account.adapter import get_adapter
 from allauth.account import app_settings as allauth_settings
 from allauth.utils import (email_address_exists, get_username_max_length)
@@ -82,12 +82,8 @@ class RegisterSerializer(serializers.Serializer):
         adapter = get_adapter()
         user = adapter.new_user(request)
         self.cleaned_data = self.get_cleaned_data()
+        user.groups.add(Group.objects.get(name='public_annotations'))
         adapter.save_user(request, user, self)
         self.custom_signup(request, user)
         setup_user_email(request, user, [])
-        # add 'add annotation' permission
-        user.user_permissions.add(Permission.objects.get(codename='add_annotation'))
-        user.user_permissions.add(Permission.objects.get(codename='view_annotation'))
-        user.user_permissions.add(Permission.objects.get(codename='change_annotation'))
-        user.user_permissions.add(Permission.objects.get(codename='delete_annotation'))
         return user

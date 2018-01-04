@@ -26,7 +26,7 @@ test('Application test', async () => {
     await page.keyboard.type(password);
     await page.click("#signupButton");
     //wait for redirect
-    await page.waitForSelector("#title");
+    await page.waitForSelector("#laureateGrid");
 
     await browser.close();
-}, 5000);
+}, 25000);

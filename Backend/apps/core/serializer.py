@@ -69,7 +69,8 @@ class RegisterSerializer(serializers.Serializer):
         return data
 
     def custom_signup(self, request, user):
-        pass
+        new_group, created = Group.objects.get_or_create(name='public_annotations')
+        user.groups.add(new_group)
 
     def get_cleaned_data(self):
         return {
@@ -82,7 +83,6 @@ class RegisterSerializer(serializers.Serializer):
         adapter = get_adapter()
         user = adapter.new_user(request)
         self.cleaned_data = self.get_cleaned_data()
-        user.groups.add(Group.objects.get(name='public_annotations'))
         adapter.save_user(request, user, self)
         self.custom_signup(request, user)
         setup_user_email(request, user, [])

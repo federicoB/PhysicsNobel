@@ -33,7 +33,7 @@ export default class LaureatesGrid extends React.Component {
             </div>)
         }
         return (
-            <div style={{
+            <div id="laureateGrid" style={{
                 display: 'flex',
                 flexFlow: 'row wrap',
                 margin: 'auto',

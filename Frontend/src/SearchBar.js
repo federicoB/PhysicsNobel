@@ -8,6 +8,10 @@ class SearchBarNoRouter extends React.Component {
     constructor(props) {
         super(props);
         this.history = this.props.history;
+        this.state = {
+            value: "",
+            results: []
+        };
         this.resetComponent = this.resetComponent.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);

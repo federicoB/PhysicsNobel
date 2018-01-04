@@ -160,7 +160,7 @@ export class SignUpPage extends React.Component {
                     />
                     {(error !== null) && (error.non_field_errors !== null) ?
                         <Message error list={error.non_field_errors}/> : null}
-                    <Button size='large' onClick={this.signUp}>Sign in</Button>
+                    <Button id="signupButton" size='large' onClick={this.signUp}>Sign in</Button>
                 </Form>
             </LoginSignUpContainer>);
     }

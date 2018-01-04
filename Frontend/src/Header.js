@@ -45,7 +45,8 @@ export default class Header extends React.Component {
                             <Link to="/"><Image centered size="small" src={logo}/></Link>
                         </Grid.Column>
                         <Grid.Column width="16">
-                            <HeaderSemantic inverted textAlign="center" size="large">PhysicsNobel</HeaderSemantic>
+                            <HeaderSemantic id="title" inverted textAlign="center"
+                                            size="large">PhysicsNobel</HeaderSemantic>
                         </Grid.Column>
                         <Grid.Column mobile="14" tablet="8" computer="4">
                             {searchBar}
@@ -64,7 +65,7 @@ export default class Header extends React.Component {
                         </Grid.Column>
                         <Grid.Column
                             only="computer tablet" tablet="5" computer="1" verticalAlign="middle">
-                            <HeaderSemantic inverted>PhysicsNobel</HeaderSemantic>
+                            <HeaderSemantic id="title" inverted>PhysicsNobel</HeaderSemantic>
                         </Grid.Column>
                         <Grid.Column only="computer" computer="6"/>
                         <Grid.Column mobile="8" tablet="5" computer="3" verticalAlign="middle"

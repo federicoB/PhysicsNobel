@@ -35,9 +35,18 @@
   "scripts": {
     "start": "webpack --watch --env development",
     "build": "webpack --env production",
-    "stats": "webpack --json"
+    "stats": "webpack --json",
+    "test": "jest"
   },
   "devDependencies": {
+    "jest": "^22.0.4",
+    "puppeteer": "^0.13.0",
     "webpack-dev-server": "^2.8.2"
+  },
+  "jest": {
+    "moduleDirectories": [
+      "src",
+      "node_modules"
+    ]
   }
 }

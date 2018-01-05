@@ -71,6 +71,7 @@ class RegisterSerializer(serializers.Serializer):
     def custom_signup(self, request, user):
         new_group, created = Group.objects.get_or_create(name='public_annotations')
         user.groups.add(new_group)
+        user.user_permissions.add(Permission.objects.get(codename='add_annotation'))
 
     def get_cleaned_data(self):
         return {

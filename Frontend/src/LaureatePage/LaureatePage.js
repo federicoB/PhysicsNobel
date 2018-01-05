@@ -28,12 +28,18 @@ export default class LaureatePage extends React.Component {
         this.app.include(annotator.authz.acl);
         //include the backend remote storage
         this.app.include(annotator.storage.http, {prefix: "/annotations/api"});
+        this.app.include(() => ({
+            beforeAnnotationCreated: (ann) => {
+                ann.page_title = this.props.name;
+            }
+        }));
     }
 
     componentDidMount() {
         //call network request for getting laureate info and set the state
         getLaureateInfo(this.props.name).then((laureate) => {
-            this.setState({laureate: laureate})//start annotator
+            this.setState({laureate: laureate});
+            //start annotator
             this.app.start().then(() => {
                 if (this.props.user !== null) {
                     const {user} = this.props;
@@ -45,7 +51,7 @@ export default class LaureatePage extends React.Component {
                         "Token " + user.token);
                 }
                 //load annotation from store
-                this.app.annotations.load();
+                this.app.annotations.load({page_title: this.props.name});
             });
         });
     }

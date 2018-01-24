@@ -51,7 +51,7 @@ export default class LaureatePage extends React.Component {
                         "Token " + user.token);
                 }
                 //load annotation from store
-                this.app.annotations.load({page_title: this.props.name});
+                this.app.annotations.load({'page_title': this.props.name});
             });
         });
     }

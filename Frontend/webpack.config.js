@@ -32,7 +32,7 @@ const commonConfig = {
         new BundleTracker({filename: './webpack-stats.json'}),
         new HardSourceWebpackPlugin()
     ],
-    externals: { //required by webpack-bundle-tracker
+    externals: { //required by wikijs
         "isomorphic-fetch": "fetch"
     },
 };
@@ -49,16 +49,15 @@ const productionConfig = {
                 ],
                 exclude: [
                     //excluding wikijs because it was giving error with babel
-                    path.resolve(__dirname, 'node_modules/wikijs')
+                    path.resolve(__dirname, 'node_modules/wikijs'),
+                    path.resolve(__dirname, 'node_modules/infobox-parser')
                 ],
                 use: [{
                     loader: 'babel-loader',
                     options: {
                         presets: [
                             ['react'],
-                            ['es2015', {modules: false}],
-                            ['es2016'],
-                            ['es2017']
+                            ['env', {modules: false}]
                         ]
                     }
                 }]
@@ -83,8 +82,11 @@ const developmentConfig = {
                     options: {
                         presets: [
                             ['react'],
-                            ['es2016'],
-                            ['es2017']
+                            ['env', {
+                                "targets": {
+                                    "browsers": ["> 10%"] //target browsers with market share > 10%
+                                }
+                            }],
                         ]
                     }
                 }]

@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from requests import Request, Session
+from rest_framework.exceptions import NotFound
 
 from .queries import wikidataSparqlEndpoint, userAgent, \
     allLaureate, laureateDetail, allWorks
@@ -47,10 +48,13 @@ def getLaureateListData():
 def getLaureateDetailData(name):
     query = laureateDetail.format(name)
     result = queryWikidata(query)
-    name = result[0]['itemLabel']['value']
-    picture = result[0].get('picture', {}).get('value')
-    prizes = [reverse_lazy('prize-detail', args=[result['year']['value']]) for result in result]
-    return name, picture, prizes
+    if (result):
+        name = result[0]['itemLabel']['value']
+        picture = result[0].get('picture', {}).get('value')
+        prizes = [reverse_lazy('prize-detail', args=[result['year']['value']]) for result in result]
+        return name, picture, prizes
+    else:
+        raise NotFound("laureate not found")
 
 
 def getWorksListData():

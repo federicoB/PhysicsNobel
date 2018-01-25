@@ -24,17 +24,18 @@ export default class Header extends React.Component {
 
     render() {
         const {laureates, match, user} = this.props;
+        const headerBackgroud = {
+            backgroundImage: "url(" + backgroud + ")",
+            backgroundSize: 'cover',
+            padding: '3vh'
+        }
         const searchBar = laureates !== null ?
             <SearchBar laureates={laureates}/> : <Loader active={true}/>;
         if (match.path === "/" && match.isExact) {
             //Home page header
             return (
                 <div className="basic inverted massive top attached"
-                     style={{
-                         backgroundImage: "url(" + backgroud + ")",
-                         backgroundSize: 'cover',
-                         padding: '3vh'
-                     }}>
+                     style={headerBackgroud}>
                     <UserMenu user={user} logOut={this.logOut}
                               style={{
                                   position: 'absolute',
@@ -57,7 +58,8 @@ export default class Header extends React.Component {
         } else {
             return (
                 //Sub pages header
-                <Segment basic inverted size="small" attached="top">
+                <div className="basic inverted small top attached"
+                     style={headerBackgroud}>
                     <Grid columns="16">
                         <Grid.Column mobile="3" tablet="2" computer="1"
                                      verticalAlign="middle">
@@ -81,7 +83,7 @@ export default class Header extends React.Component {
                             </UserMenu>
                         </Grid.Column>
                     </Grid>
-                </Segment>
+                </div>
             );
         }
     }

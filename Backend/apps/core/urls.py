@@ -7,8 +7,8 @@ from apps.core.views import LaureateViewSet, PrizeViewSet, \
 
 router = DefaultRouter()
 # register routes for laureates object. 'laureates' will also be the base name for naming views.
-router.register(r'laureates', LaureateViewSet, base_name='laureate')
-router.register(r'prizes', PrizeViewSet, base_name='prize')
+router.register(prefix=r'laureates', viewset=LaureateViewSet, base_name='laureate')
+router.register(prefix=r'prizes', viewset=PrizeViewSet, base_name='prize')
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),

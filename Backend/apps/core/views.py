@@ -16,6 +16,8 @@ class IndexView(TemplateView):
 class LaureateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LaureateSerializer
     lookup_field = 'name'
+    # set regex to accept everything to avoid problems with dot-abbreviated laureates names
+    lookup_value_regex = '.*'
 
     # list method is automatically defined by setting the queryset
 

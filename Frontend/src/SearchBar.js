@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import { withRouter } from 'react-router'
-import {Search} from 'semantic-ui-react'
+import {Search, Icon, Segment} from 'semantic-ui-react'
 
 class SearchBarNoRouter extends React.Component {
     constructor(props) {
@@ -15,9 +15,9 @@ class SearchBarNoRouter extends React.Component {
         this.resetComponent = this.resetComponent.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
-        this.handleGenericSearch = this.handleGenericSearch.bind(this);
+        this.gotoGenericSearch = this.gotoGenericSearch.bind(this)
         this.resultRenderer = ({ title }) =>
-            <Link to={"/pages/"+title} > {title} </Link>;
+            <Link to={"/pages/" + title}><Segment basic compact small> {title} </Segment></Link>;
         this.resultRenderer.propTypes = {
             title: PropTypes.string,
         }
@@ -35,11 +35,8 @@ class SearchBarNoRouter extends React.Component {
         this.setState({ value: result.name })
     }
 
-    handleGenericSearch(e) {
-        //if enter is pressed
-        if (e.keyCode===13) {
-            this.history.push('/results/'+this.state.value)
-        }
+    gotoGenericSearch() {
+        this.history.push('/results/' + this.state.value)
     }
 
     handleSearchChange(e, { value }) {
@@ -58,7 +55,9 @@ class SearchBarNoRouter extends React.Component {
             <Search
                 onResultSelect={this.handleResultSelect}
                 onSearchChange={this.handleSearchChange}
-                onKeyDown={this.handleGenericSearch}
+                onKeyDown={(e) => {
+                    if (e.keyCode === 13) this.gotoGenericSearch()
+                }}
                 results={results}
                 value={value}
                 resultRenderer={this.resultRenderer}

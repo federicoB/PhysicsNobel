@@ -33,9 +33,10 @@ export default class LaureatePage extends React.Component {
                 ann.page_title = this.props.name;
             }
         }));
+        this.fetchLaureateInfo = this.fetchLaureateInfo.bind(this)
     }
 
-    componentDidMount() {
+    fetchLaureateInfo() {
         //call network request for getting laureate info and set the state
         getLaureateInfo(this.props.name).then((laureate) => {
             this.setState({laureate: laureate});
@@ -54,6 +55,20 @@ export default class LaureatePage extends React.Component {
                 this.app.annotations.load({'page_title': this.props.name});
             });
         });
+    }
+
+    componentDidMount() {
+        this.fetchLaureateInfo()
+    }
+
+    componentWillReceiveProps(newProps) {
+        //check if a new laureate is requested
+        if (this.props.name !== newProps.name) {
+            //destroy annotator object to clean
+            this.app.destroy()
+            //re-fetch laureate info
+            this.fetchLaureateInfo()
+        }
     }
 
     render() {

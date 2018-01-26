@@ -4,6 +4,8 @@ from django.urls import reverse
 
 from .models import Laureate
 
+from .NetworkRequests.wikidata import generatePictureThumbnailUri
+
 
 # Create your tests here.
 
@@ -24,7 +26,7 @@ class IndexViewTests(TestCase):
 class LaureateEnpointTests(TestCase):
     def setUp(self):
         self.client = Client()
-        self.urlLaureateList = reverse("laureate-list");
+        self.urlLaureateList = reverse("laureate-list")
 
     def test_response_list(self):
         response = self.client.get(self.urlLaureateList)
@@ -88,3 +90,11 @@ class UsersTests(TestCase):
         }
         response = self.client.post('/rest-auth/registration/', data=data)
         self.assertEqual(response.status_code, 201)
+
+
+class WikidataTests(TestCase):
+    def test_generatePictureThumbnailUrl(self):
+        inputPictureUri = "https://upload.wikimedia.org/wikipedia/commons/d/d2/Broglie_Big.jpg"
+        expectedPictureUri = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Broglie_Big.jpg/200px-Broglie_Big.jpg"
+        thumbnailUri = generatePictureThumbnailUri(inputPictureUri, 200)
+        self.assertEqual(expectedPictureUri, thumbnailUri)

@@ -1,6 +1,5 @@
 from django.urls import reverse_lazy
 from requests import Request, Session
-from rest_framework.exceptions import NotFound
 import hashlib, urllib
 
 from .queries import wikidataSparqlEndpoint, userAgent, \
@@ -28,39 +27,26 @@ def queryWikidata(query):
 
 def getLaureateListData():
     # TODO use wikipedia category for getting wikidata pages instead of using award property
-    results = queryWikidata(allLaureate)
-    # join prizes with the same laureate
-    names = list()
-    pictures = list()
-    prizes = list()
-    for result in results:
-        name = result['itemLabel']['value']
-        picture = result.get('picture', {}).get('value')
-        # call generate picture thumbnail url with width 200px
-        if (picture): picture = generatePictureThumbnailUri(picture, 200)
-        prize = reverse_lazy('prize-detail', args=[result['year']['value']])
-        if name not in names:
-            names.append(name)
-            pictures.append(picture)
-            prizes.append([prize])
-        else:
-            prizes[names.index(name)].append(prize)
-    return names, pictures, prizes
-
+    return queryWikidata(allLaureate)
 
 def getLaureateDetailData(name):
     query = laureateDetail.format(name)
-    result = queryWikidata(query)
-    if (result):
-        name = result[0]['itemLabel']['value']
-        picture = result[0].get('picture', {}).get('value')
-        # call generate picture thumbnail url with width 400px
-        if (picture): picture = generatePictureThumbnailUri(picture, 400)
-        prizes = [reverse_lazy('prize-detail', args=[result['year']['value']]) for result in result]
-        return name, picture, prizes
-    else:
-        raise NotFound("laureate not found")
+    return queryWikidata(query)
 
+
+def cleanLaureateData(response):
+    """
+    Extract name, picture and prize from a wikidata response for a single nobel laureate
+
+    :param response: dict with wikidata response format
+    :return: name, picture, prize
+    """
+
+    name = response['itemLabel']['value']
+    picture = response.get('picture', {}).get('value')
+    # get prize api url from prize year
+    prize = reverse_lazy('prize-detail', args=[response['year']['value']])
+    return name, picture, prize
 
 def getWorksListData():
     results = queryWikidata(allWorks)

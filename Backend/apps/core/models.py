@@ -1,7 +1,9 @@
-from django.db import models
+from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 
-from .NetworkRequests import wikidata, wikipedia, crossref, nobelprize
+from rest_framework.exceptions import NotFound
+
+from .NetworkRequests import wikidata, wikipedia, crossref, nobelprize, google
 
 
 class Laureate(object):
@@ -15,18 +17,79 @@ class Laureate(object):
 
     @staticmethod
     def all():
-        names, pictures, prizes = wikidata.getLaureateListData()
+        """
+        Queryset method to return an array of all Laureate objects
+
+        :return: array of Laureate
+        """
+
+        results = wikidata.getLaureateListData()
+
+        names = list()
+        pictures = list()
+        prizes = list()
+        # for each laureate result
+        for result in results:
+            name, picture, prize = wikidata.cleanLaureateData(result)
+            # if wikidata has laureate picture
+            if (picture):
+                # generate a 200px width thumbnail url for it
+                picture = wikidata.generatePictureThumbnailUri(picture, 200)
+            else:
+                # otherwise use google search for retrieve it
+                picture = google.getImage(name)
+            # join elements with the same laureate
+            # add a new laureate only if it's not already in the list
+            if name not in names:
+                names.append(name)
+                pictures.append(picture)
+                prizes.append([prize])
+            else:
+                # otherwise only add prize to an existing laureate in the list
+                prizes[names.index(name)].append(prize)
+        # create Laureate list from names, pictures and prizes list
         return [Laureate(name, picture, prize)
                 for name, picture, prize
                 in zip(names, pictures, prizes)]
 
     @staticmethod
     def get(name):
-        name, picture, prizes = wikidata.getLaureateDetailData(name)
-        # get biography
+        """
+        gets Laureates specifific info like biography and published works
+
+        :param name:
+        :return:
+        """
+
+        # get data from wikidata
+        results = wikidata.getLaureateDetailData(name)
+        if (results):
+            # get name picture and prize from the first element
+            name, picture, prize = wikidata.cleanLaureateData(results[0])
+            # if wikidata has laureate picture
+            if (picture):
+                # generate a 400px width thumbnail url for it
+                picture = wikidata.generatePictureThumbnailUri(picture, 200)
+            else:
+                # otherwise use google search for retrieve it
+                picture = google.getImage(name)
+            # if the laureate won more than one prize (uncommon case)
+            if (len(results) > 1):
+                # construct prizes list from all the elements
+                # discard name and picture (they are the same of the first element)
+                prizes = [wikidata.cleanLaureateData(result)[2] for result in results]
+            else:
+                # otherwise if the laureate won only one prize
+                # create a prizes list with one element
+                prizes = [prize]
+        else:
+            # if the laureate is not found raise NotFound exception
+            raise NotFound("laureate not found")
+        # get biography from wikipedia
         biography = wikipedia.getBiography(name)
         # get laureate articles on crossref
         works = Work.getWorks(name)
+        # create Laureate object and return it
         return Laureate(name, picture, prizes, biography, works)
 
 class Work(object):

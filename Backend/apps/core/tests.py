@@ -5,6 +5,7 @@ from django.urls import reverse
 from .models import Laureate
 
 from .NetworkRequests.wikidata import generatePictureThumbnailUri
+from .NetworkRequests import google
 
 
 # Create your tests here.
@@ -98,3 +99,10 @@ class WikidataTests(TestCase):
         expectedPictureUri = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Broglie_Big.jpg/200px-Broglie_Big.jpg"
         thumbnailUri = generatePictureThumbnailUri(inputPictureUri, 200)
         self.assertEqual(expectedPictureUri, thumbnailUri)
+
+
+class GoogleTests(TestCase):
+    def test_getImage(self):
+        expectedImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Albert_Einstein_Head.jpg/1200px-Albert_Einstein_Head.jpg"
+        imageUrl = google.getImage("Albert Einstein")
+        self.assertEqual(expectedImageUrl, imageUrl)

@@ -160,9 +160,15 @@ class Prize:
     @staticmethod
     def get(year):
         laureatesRaw = nobelprize.getLaureateData(year)
-        laureates = [Laureate(laureate['firstname'] + " " + laureate['surname']) for laureate in laureatesRaw]
+        # TODO remove workaround
+        # use wikidata laureate names because nobelprize.org sometimes have laureate different name
+        # from wikidata and this cause problems
+        # Prize.all() is cached so performance of this workaround is not a problem
+        laureates = list(filter(lambda prize: (prize.year == year), Prize.all()))[0].laureates
+        # laureates = [Laureate(laureate['firstname'] + " " + laureate['surname']) for laureate in laureatesRaw]
         # all motivation are equal to only pick the first one
         # truncate beginning "for" word
+        # TODO sometimes truncate too much (see Wilhem Rontgen)
         motivation = laureatesRaw[0]['motivation'][5:-1]
         worksData = crossref.getMotivationWorksData(motivation)
         works = [Work.getFromHabaneroItem(item) for item in worksData]

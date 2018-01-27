@@ -23,7 +23,10 @@ from .secretSettings import SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'site1746.tw.cs.unibo.it' # unibo domain #TODO remove once expired
+]
 
 CORS_ORIGIN_WHITELIST = (
     'en.wikipedia.org',

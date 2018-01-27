@@ -18,6 +18,6 @@ export default class WikiText extends React.Component {
                 } else accumulator.push(element)
                 return accumulator;
             }, []);
-        return (<Container {...this.props} text>{newText}</Container>);
+        return (<Container {...this.props} text dangerouslySetInnerHTML={{__html:newText}}/>);
     }
 }

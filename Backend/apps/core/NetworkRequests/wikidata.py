@@ -56,7 +56,10 @@ def cleanLaureateData(response):
     return name, picture, prize
 
 def getPrizesListData():
-    results = queryWikidata(allPrizes)
+    results = cache.get('allPrizes')
+    if (not results):
+        results = queryWikidata(allPrizes)
+        cache.set('allPrizes', results, timeout=None)
     years = list()
     laureates = list()
     for result in results:

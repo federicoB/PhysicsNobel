@@ -1,5 +1,5 @@
 import React from 'react'
-import {Loader} from 'semantic-ui-react'
+import {Loader,Divider,Container} from 'semantic-ui-react'
 import annotator from 'annotator'
 
 import LaureateInfo from './LaureateInfo'
@@ -18,6 +18,12 @@ export default class LaureatePage extends React.Component {
         this.state = {
             laureate: null,
         };
+        this.inizializeAnnotator = this.inizializeAnnotator.bind(this)
+        this.fetchLaureateInfo = this.fetchLaureateInfo.bind(this)
+        this.inizializeAnnotator()
+    }
+
+    inizializeAnnotator() {
         //TODO lazy load annotator
         //setup annotator library
         this.app = new annotator.App();
@@ -28,12 +34,13 @@ export default class LaureatePage extends React.Component {
         this.app.include(annotator.authz.acl);
         //include the backend remote storage
         this.app.include(annotator.storage.http, {prefix: "/annotations/api"});
+        //add hook on annotation creation
         this.app.include(() => ({
             beforeAnnotationCreated: (ann) => {
+                //to include page title inside annotation
                 ann.page_title = this.props.name;
             }
         }));
-        this.fetchLaureateInfo = this.fetchLaureateInfo.bind(this)
     }
 
     fetchLaureateInfo(laureateName) {
@@ -48,8 +55,10 @@ export default class LaureatePage extends React.Component {
                     this.app.ident.identity = user.username;
                     //set header for CDRF token protection
                     this.app.annotations.store.setHeader('X-CSRFToken', user.crsfToken);
-                    this.app.annotations.store.setHeader('Authorization',
-                        "Token " + user.token);
+                    //use token authentication
+                    this.app.annotations.store.setHeader('Authorization',"Token " + user.token);
+                } else {
+                    this.app.ident.identity = ""
                 }
                 //load annotation from store
                 this.app.annotations.load({'page_title': this.props.name});
@@ -64,11 +73,21 @@ export default class LaureatePage extends React.Component {
     componentWillReceiveProps(newProps) {
         //check if a new laureate is requested
         if (this.props.name !== newProps.name) {
-            //destroy annotator object to clean
+            this.setState({laureate: null});
+            //destroy annotator object to clean up
             this.app.destroy()
             //re-fetch laureate info
             this.fetchLaureateInfo(newProps.name)
         }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return (nextProps.name!==nextState.name)
+    }
+
+    componentWillUnmount() {
+        //destroy annotator object to clean up
+        this.app.destroy()
     }
 
     render() {
@@ -76,12 +95,15 @@ export default class LaureatePage extends React.Component {
 
         return (laureate === null) ?
             <Loader active={true}/> :
-            <div style={{margin: 'auto'}}>
+            <Container>
                 <LaureateInfo name={laureate.name} picture={laureate.picture}
                               prizes={laureate.prizes}/>
+                <Divider/>
                 <PrizeInfo prizes={laureate.prizes} name={laureate.name}/>
+                <Divider/>
                 <Biography biography={laureate.biography}/>
+                <Divider/>
                 <LaureateWorks works={laureate.works}/>
-            </div>;
+            </Container>;
     }
 }

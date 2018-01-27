@@ -98,19 +98,41 @@ class Laureate(object):
         return Laureate(name, picture, prizes, biography, works)
 
 class Work(object):
-    def __init__(self, title=None, URL=None):
+    def __init__(self, title=None, URL=None, author=None, publishDate=None, type=None):
         self.title = title
+        self.author = author
+        self.publishDate = publishDate
         self.URL = URL
+        self.type = type
 
     @staticmethod
     def getFromHabaneroItem(item):
-        if 'title' in item.keys() and len(item['title'])>0:
-            return Work(item['title'][0], item['URL'])
+        keys = item.keys()
+        if 'title' in keys and len(item['title'])>0:
+            author = None
+            issued = None
+            type = item.get('type',None)
+            if 'author' in keys:
+                author = item['author'][0]
+                author = author['given']+" "+author['family']
+            if 'issued' in keys:
+                issued = ""
+                for number in item['issued']['date-parts'][0]:
+                    issued+=str(number)+" "
+
+            return Work(item['title'][0], item['URL'],author,issued,type)
         else:
             return None
 
     @staticmethod
     def getWorks(name):
+        """
+        Return Works(journal-articles,...) with author 'name'
+
+        :param name: srting author name
+        :return: list of Works
+        """
+
         data = crossref.getWorksData(name)
         works = [Work.getFromHabaneroItem(item) for item in data]
         return works
@@ -124,7 +146,7 @@ class Prize:
 
     @staticmethod
     def all():
-        years, laureates = wikidata.getWorksListData()
+        years, laureates = wikidata.getPrizesListData()
         # trasform list of list of strings to list of list of laureates
         laureates = list(map(
             lambda x: list(map(

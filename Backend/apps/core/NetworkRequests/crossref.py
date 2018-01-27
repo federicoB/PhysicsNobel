@@ -6,7 +6,7 @@ def getWorksData(name):
     result = cr.works(
         query_author=name,
         limit=6)
-    return [item for item in result['message']['items']]
+    return result['message']['items']
 
 
 def getMotivationWorksData(motivation):
@@ -14,4 +14,4 @@ def getMotivationWorksData(motivation):
     result = cr.works(
         query=motivation,
         limit=6)
-    return [item for item in result['message']['items']]
+    return result['message']['items']

@@ -4,7 +4,7 @@ from django.core.cache import cache
 import hashlib, urllib
 
 from .queries import wikidataSparqlEndpoint, userAgent, \
-    allLaureate, laureateDetail, allWorks
+    allLaureate, laureateDetail, allPrizes
 
 
 def setupWikidataRequest(query):
@@ -55,8 +55,8 @@ def cleanLaureateData(response):
     prize = reverse_lazy('prize-detail', args=[response['year']['value']])
     return name, picture, prize
 
-def getWorksListData():
-    results = queryWikidata(allWorks)
+def getPrizesListData():
+    results = queryWikidata(allPrizes)
     years = list()
     laureates = list()
     for result in results:

@@ -32,7 +32,7 @@ laureateDetail = """
         GROUP BY ?date ?itemLabel ?picture
         """
 
-allWorks = """
+allPrizes = """
         SELECT (YEAR(?date) as ?year) ?itemLabel WHERE {
             ?item p:P166 ?statement.
             ?statement ps:P166 wd:Q38104.

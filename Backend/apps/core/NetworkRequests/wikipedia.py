@@ -34,7 +34,7 @@ def wikipediaHTMLCleanup(soup):
     tags_to_remove.extend(soup.find_all('div', {'class': 'hatnote'}))
     # removes references
     tags_to_remove.extend(soup.find_all('sup', {'class': 'reference'}))
-    sections_to_remove = ['Bibliography', 'See also', 'References', 'External links', 'Notes']
+    sections_to_remove = ['Bibliography', 'See also', 'References', 'External links', 'Notes','Publications']
     # foreach section to remove
     for section in sections_to_remove:
         # find and h2 with as text the name

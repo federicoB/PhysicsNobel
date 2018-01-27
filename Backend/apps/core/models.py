@@ -44,7 +44,8 @@ class Laureate(object):
                 names.append(name)
                 pictures.append(picture)
                 prizes.append([prize])
-            else:
+            elif (prize not in prizes[names.index(name)]):
+                # TODO this condition can be removed if the GROUP BY ?itemLabel ?year worked
                 # otherwise only add prize to an existing laureate in the list
                 prizes[names.index(name)].append(prize)
         # create Laureate list from names, pictures and prizes list
@@ -73,11 +74,15 @@ class Laureate(object):
             else:
                 # otherwise use google search for retrieve it
                 picture = google.getImage(name)
+            prizes = []
             # if the laureate won more than one prize (uncommon case)
             if (len(results) > 1):
                 # construct prizes list from all the elements
                 # discard name and picture (they are the same of the first element)
-                prizes = [wikidata.cleanLaureateData(result)[2] for result in results]
+                for result in results:
+                    _ , _, prize = wikidata.cleanLaureateData(result)
+                    # this condition is always for grup by not working (as written also in get all laureates)
+                    if (prize not in prizes): prizes.append(prize)
             else:
                 # otherwise if the laureate won only one prize
                 # create a prizes list with one element

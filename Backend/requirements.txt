@@ -1,5 +1,5 @@
 amqp==2.2.1
--e git://github.com/federicoB/django-annotator-store.git@1b13b86117f877b428ab74d84771c8c313c4c458#egg=annotator_store
+git+https://github.com/federicoB/django-annotator-store.git@forPhysicsNobelProject
 beautifulsoup4==4.6.0
 billiard==3.5.0.3
 celery==4.1.0

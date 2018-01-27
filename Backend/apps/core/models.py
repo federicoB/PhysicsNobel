@@ -146,21 +146,3 @@ class Prize:
         works = [Work.getFromHabaneroItem(item) for item in worksData]
         return Prize(year, laureates, motivation, works)
 
-# class Annotation(models.Model):
-#     id = models.CharField(primary_key=True,max_length=40)
-#     annotator_schema_version =
-#     created = models.DateTimeField
-#     updated = models.DateTimeField
-#     text = models.CharField(max_length=500)
-#     quote = models.CharField(max_length=500)
-#     uri = models.URLField
-#     user = models.ForeignKey(User,on_delete=models.CASCADE)
-#     consumer = models.CharField
-#
-#
-# class Ranges(models.Model):
-#      annotation = models.ForeignKey(Annotation,on_delete=models.CASCADE)
-#      start = models.CharField(max_length=50)
-#      end = models.CharField(max_length=50)
-#      startOffset = models.IntegerField
-#      endOffset = models.IntegerField

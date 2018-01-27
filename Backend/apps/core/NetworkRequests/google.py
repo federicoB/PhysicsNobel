@@ -1,15 +1,17 @@
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
+from urllib.parse import quote
+from django.core.cache import cache
 import json
 
 
-def getImage(laureateName):
+def getFromScrape(laureateName):
     """
-    Web scrape google image search for get an image of a laureate
+        Web scrape google image search for get an image of a laureate
 
-    :param laureateName: string
-    :return: string link to an image of the laureate
-    """
+        :param laureateName: string
+        :return: string link to an image of the laureate
+        """
 
     query = laureateName.split()
     query = '+'.join(query)
@@ -26,3 +28,13 @@ def getImage(laureateName):
     # the metadata is saved as json, decode it
     link = json.loads(a.text)["ou"]
     return link
+
+def getImage(laureateName):
+    key = 'googleImageSearch-' + quote(laureateName)
+    link = cache.get(key)
+    if (link):
+        return link
+    else:
+        link = getFromScrape(laureateName)
+        cache.set(key, link, timeout=None)
+        return link

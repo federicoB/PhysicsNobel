@@ -81,8 +81,8 @@ DATABASES = {
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'TIMEOUT': 604800,  # a week
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'physicsNoble_cache',
     }
 }
 

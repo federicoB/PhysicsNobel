@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from requests import Request, Session
+from django.core.cache import cache
 import hashlib, urllib
 
 from .queries import wikidataSparqlEndpoint, userAgent, \
@@ -26,8 +27,14 @@ def queryWikidata(query):
     return result['results']['bindings']
 
 def getLaureateListData():
-    # TODO use wikipedia category for getting wikidata pages instead of using award property
-    return queryWikidata(allLaureate)
+    laureates = cache.get('allLaureates')
+    if (laureates):
+        return laureates
+    else:
+        # TODO use wikipedia category for getting wikidata pages instead of using award property
+        laureates = queryWikidata(allLaureate)
+        cache.set('allLaureates', laureates, timeout=None)
+        return laureates
 
 def getLaureateDetailData(name):
     query = laureateDetail.format(name)

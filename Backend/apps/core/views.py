@@ -12,7 +12,6 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
 
-@method_decorator(cache_page(604800), name='dispatch')
 class LaureateViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LaureateSerializer
     lookup_field = 'name'
@@ -36,7 +35,6 @@ class LaureateViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
 
-@method_decorator(cache_page(604800), name='dispatch')
 class PrizeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PrizeSerializer
     lookup_field = 'year'

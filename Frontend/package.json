@@ -33,7 +33,7 @@
   "scripts": {
     "start": "webpack --watch --env development",
     "build": "webpack --env production",
-    "stats": "webpack --json",
+    "build:stats": "webpack --env production --json > stats.json",
     "test": "jest"
   },
   "devDependencies": {

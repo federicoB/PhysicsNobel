@@ -17,7 +17,7 @@ class SearchBarNoRouter extends React.Component {
         this.handleSearchChange = this.handleSearchChange.bind(this);
         this.gotoGenericSearch = this.gotoGenericSearch.bind(this)
         this.resultRenderer = ({ title }) =>
-            <Link to={"/pages/" + title}><Segment basic compact small> {title} </Segment></Link>;
+            <Link to={"/pages/" + title}><Segment basic compact size="small"> {title} </Segment></Link>;
         this.resultRenderer.propTypes = {
             title: PropTypes.string,
         }

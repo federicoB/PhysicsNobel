@@ -36,9 +36,9 @@ export default class LaureatePage extends React.Component {
         this.fetchLaureateInfo = this.fetchLaureateInfo.bind(this)
     }
 
-    fetchLaureateInfo() {
+    fetchLaureateInfo(laureateName) {
         //call network request for getting laureate info and set the state
-        getLaureateInfo(this.props.name).then((laureate) => {
+        getLaureateInfo(laureateName).then((laureate) => {
             this.setState({laureate: laureate});
             //start annotator
             this.app.start().then(() => {
@@ -58,7 +58,7 @@ export default class LaureatePage extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchLaureateInfo()
+        this.fetchLaureateInfo(this.props.name)
     }
 
     componentWillReceiveProps(newProps) {
@@ -67,7 +67,7 @@ export default class LaureatePage extends React.Component {
             //destroy annotator object to clean
             this.app.destroy()
             //re-fetch laureate info
-            this.fetchLaureateInfo()
+            this.fetchLaureateInfo(newProps.name)
         }
     }
 

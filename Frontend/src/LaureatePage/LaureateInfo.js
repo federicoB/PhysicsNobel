@@ -6,18 +6,16 @@ export default class LaureateInfo extends React.Component {
         const years = this.props.prizes.map((prize)=>prize.substr(prize.length-5,4))
             .join(", ");
         return (
-            <Container text>
                 <Grid columns="2" stackable reversed="mobile">
-                    <Grid.Column floated="left">
-                        <Image size="medium" centered src={this.props.picture}/>
+                    <Grid.Column style={{marginRight: '2rem', width: 'auto'}} floated="left">
+                        <Image size="medium" src={this.props.picture}/>
                     </Grid.Column>
-                    <Grid.Column floated="right" verticalAlign="middle"
-                                 textAlign="center">
+                    <Grid.Column floated="left" verticalAlign="middle"
+                                 textAlign="left">
                         <Header size="huge">{this.props.name}</Header>
                         <Header size="small">Nobel Prize in Physics {years}</Header>
                     </Grid.Column>
                 </Grid>
-            </Container>
         )
     }
 }

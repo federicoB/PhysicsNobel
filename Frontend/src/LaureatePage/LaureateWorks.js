@@ -5,8 +5,6 @@ import WorksComponent from './WorksComponent';
 
 export default class LaureateWorks extends React.Component {
     render() {
-        return (<Container text>
-                    <WorksComponent works={this.props.works} />
-                </Container>);
+        return (<WorksComponent works={this.props.works}/>)
     }
 }

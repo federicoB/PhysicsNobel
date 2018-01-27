@@ -41,19 +41,18 @@ export default class PrizeInfo extends React.Component {
                 .filter((laureate) => (laureate !== name))
                 .map((laureate) => (<Link key={laureate} to={"/pages/" + laureate}>{laureate}</Link>))
             coworkers = (coworkers.length > 0) ? coworkers.reduce((prev, curr, index) => [prev, ', ', curr]) : null
-            return (
-                <Segment basic key={prize.year}>
-                    <Header
-                        size="small">{(coworkers) ? "with " : ""}{coworkers} for {prize.motivation}</Header>
-                    <Header size="medium">Articles about that:</Header>
-                    <WorksComponent works={prize.works}/>
-                </Segment>
-            )
+            return [
+                <Header key={"coworkers-motivation" + prize.year}
+                        size="small">{(coworkers) ? "with " : ""}{coworkers} for {prize.motivation}</Header>,
+                <Header key={"topicHeader" + prize.year} size="small">Articles about prize topic:</Header>,
+                <WorksComponent key={"worksComponent" + prize.year} works={prize.works}/>,
+            ]
         })
 
-        return (
-            <Container text>{prizeViews}<Loader active={loading}/></Container>
-        )
+        return [
+            [prizeViews],
+            <Loader key="prizeInfoLoader" active={loading}/>
+        ]
     }
 
 }

@@ -1,21 +1,26 @@
 import requests, re
 from bs4 import BeautifulSoup, Tag
-
+from django.core.cache import cache
+from urllib.parse import quote
 from .queries import userAgent
 
 
 def getBiography(name):
-    baseurl = 'https://en.wikipedia.org/w/api.php'
-    headers = {'user-agent': userAgent}
-    my_atts = {}
-    my_atts['action'] = 'parse'
-    my_atts['format'] = 'json'
-    my_atts['disabletoc'] = 1
-    my_atts['disableeditsection'] = 1
-    my_atts['redirects'] = 1
-    my_atts['page'] = name
-    resp = requests.get(baseurl, params=my_atts, headers=headers)
-    data = resp.json()
+    key = "wikibiography" + quote(name)
+    data = cache.get(key, None)
+    if (not data):
+        baseurl = 'https://en.wikipedia.org/w/api.php'
+        headers = {'user-agent': userAgent}
+        my_atts = {}
+        my_atts['action'] = 'parse'
+        my_atts['format'] = 'json'
+        my_atts['disabletoc'] = 1
+        my_atts['disableeditsection'] = 1
+        my_atts['redirects'] = 1
+        my_atts['page'] = name
+        resp = requests.get(baseurl, params=my_atts, headers=headers)
+        data = resp.json()
+        cache.set(key, data, timeout=1000000)
     biography = next(iter(data['parse']['text'].values()))
     soup = BeautifulSoup(biography, "html.parser")
     wikipediaHTMLCleanup(soup)

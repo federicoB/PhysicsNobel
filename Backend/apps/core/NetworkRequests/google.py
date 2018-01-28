@@ -36,5 +36,5 @@ def getImage(laureateName):
         return link
     else:
         link = getFromScrape(laureateName)
-        cache.set(key, link, timeout=None)
+        cache.set(key, link, timeout=10000000)
         return link

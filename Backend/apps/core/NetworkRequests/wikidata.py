@@ -33,7 +33,7 @@ def getLaureateListData():
     else:
         # TODO use wikipedia category for getting wikidata pages instead of using award property
         laureates = queryWikidata(allLaureate)
-        cache.set('allLaureates', laureates, timeout=None)
+        cache.set('allLaureates', laureates, timeout=1000000)
         return laureates
 
 def getLaureateDetailData(name):
@@ -56,10 +56,10 @@ def cleanLaureateData(response):
     return name, picture, prize
 
 def getPrizesListData():
-    results = cache.get('allPrizes')
+    results = cache.get('allPrizes', None)
     if (not results):
         results = queryWikidata(allPrizes)
-        cache.set('allPrizes', results, timeout=None)
+        cache.set('allPrizes', results, timeout=1000000)
     years = list()
     laureates = list()
     for result in results:

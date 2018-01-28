@@ -1,10 +1,11 @@
 import React from 'react'
-import {Container} from 'semantic-ui-react'
+import {Header} from 'semantic-ui-react'
 
-import WorksComponent from './WorksComponent';
+import WorksComponent from './WorksComponent'
 
-export default class LaureateWorks extends React.Component {
-    render() {
-        return (<WorksComponent works={this.props.works}/>)
-    }
+export default function LaureateWorks({name, works}) {
+    return [
+        <Header key="publicationsHeader">Publications by {name}</Header>,
+        <WorksComponent key="laureatePublications" works={works}/>
+    ]
 }

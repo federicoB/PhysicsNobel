@@ -1,5 +1,5 @@
 import React from 'react';
-import {Header, Container, Segment, Loader} from 'semantic-ui-react'
+import {Header, Segment} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
 import {getPrizeInfo} from '../NetworkRequests';
@@ -51,7 +51,7 @@ export default class PrizeInfo extends React.Component {
 
         return [
             [prizeViews],
-            <Loader key="prizeInfoLoader" active={loading}/>
+            (loading) ? <Segment key="prizeInfoLoader" loading={loading}/> : null
         ]
     }
 

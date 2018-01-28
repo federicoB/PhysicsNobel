@@ -75,7 +75,7 @@ export default class LaureatePage extends React.Component {
         if (this.props.name !== newProps.name) {
             this.setState({laureate: null});
             //destroy annotator object to clean up
-            this.app.destroy()
+            if (this.app) this.app.destroy()
             //re-fetch laureate info
             this.fetchLaureateInfo(newProps.name)
         }
@@ -87,7 +87,7 @@ export default class LaureatePage extends React.Component {
 
     componentWillUnmount() {
         //destroy annotator object to clean up
-        this.app.destroy()
+        if (this.app) this.app.destroy()
     }
 
     render() {
@@ -95,7 +95,7 @@ export default class LaureatePage extends React.Component {
 
         return (laureate === null) ?
             <Loader active={true}/> :
-            <Container>
+            <Container style={{marginBottom: "10%"}}>
                 <LaureateInfo name={laureate.name} picture={laureate.picture}
                               prizes={laureate.prizes}/>
                 <Divider/>
@@ -103,7 +103,7 @@ export default class LaureatePage extends React.Component {
                 <Divider/>
                 <Biography biography={laureate.biography}/>
                 <Divider/>
-                <LaureateWorks works={laureate.works}/>
+                <LaureateWorks name={laureate.name} works={laureate.works}/>
             </Container>;
     }
 }

@@ -8,6 +8,9 @@ from allauth.account.utils import setup_user_email
 
 class WorkSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=100)
+    author = serializers.CharField(max_length=100)
+    type = serializers.CharField(max_length=20)
+    publishDate = serializers.CharField(max_length=20)
     URL = serializers.URLField(max_length=100)
 
 

@@ -113,13 +113,14 @@ class Work(object):
             issued = None
             type = item.get('type',None)
             if 'author' in keys:
-                author = item['author'][0]
-                author = author['given']+" "+author['family']
+                author = item.get('author', [])
+                if (len(author) > 0):
+                    author = author[0]
+                    author = author.get('given', "") + " " + author.get('family', "")
+                else:
+                    author = None
             if 'issued' in keys:
-                issued = ""
-                for number in item['issued']['date-parts'][0]:
-                    issued+=str(number)+" "
-
+                issued = "/".join(str(x) for x in item['issued']['date-parts'][0])
             return Work(item['title'][0], item['URL'],author,issued,type)
         else:
             return None

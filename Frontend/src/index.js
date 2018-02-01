@@ -16,7 +16,7 @@ import PageSwitcher from './PageSwitcher'
 import Header from './Header'
 import Footer from './Footer'
 import {LogInPage, SignUpPage} from './LogInSignUp'
-import {getLaureates, getLoggedUserInfo} from './NetworkRequests'
+import {getLaureates, requestUserInfo} from './NetworkRequests'
 
 /**
  * Root container of application.
@@ -72,7 +72,7 @@ class Application extends React.Component {
 
     getLoggedUserInfo() {
         if (sessionStorage.getItem('token') !== null) {
-            getLoggedUserInfo()
+            requestUserInfo()
                 .then((response) => this.setState({
                     user: {
                         username: response.body.username,
@@ -122,18 +122,18 @@ class Application extends React.Component {
                 <div style={mainContentStyle}>
                     <Switch>
                         {/* homepage laureate list/grid */}
-                        <Route exact path="/" render={laureateGrid}/>
+                        <Route exact path="/wsgi/wsgi.wsgi" render={laureateGrid}/>
                         {/* Sign in form */}
-                        <Route exact path="/signup" render={signUpPage}/>
+                        <Route exact path="/wsgi/wsgi.wsgi/signup" render={signUpPage}/>
                         {/* Log in form */}
-                        <Route exact path="/login" render={loginPage}/>
+                        <Route exact path="/wsgi/wsgi.wsgi/login" render={loginPage}/>
                         {/* Result page from wikipedia search with keyword not relating to a laureate */}
-                        <Route exact path="/results/:query" component={ResultsPage}/>
+                        <Route exact path="/wsgi/wsgi.wsgi/results/:query" component={ResultsPage}/>
                         {/* Detail page, the url is the same for laureate of generic wikipedia articles.
                         page switcher handle the component choose. */}
-                        <Route path="/pages/:page" render={pageSwitcher}/>
+                        <Route path="/wsgi/wsgi.wsgi/pages/:page" render={pageSwitcher}/>
                         {/* Switch is exclusive so if a Route has no matched yet at this point 404 will be show*/}
-                        <Route path="/:something" component={NotFound404}/>
+                        <Route path="/wsgi/wsgi.wsgi/:something" component={NotFound404}/>
                     </Switch>
                 </div>
                 {/* FOOTER */}

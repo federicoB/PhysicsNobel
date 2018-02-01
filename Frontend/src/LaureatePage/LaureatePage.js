@@ -6,7 +6,7 @@ import LaureateInfo from './LaureateInfo'
 import PrizeInfo from './PrizeInfo'
 import Biography from './Biography'
 import LaureateWorks from './LaureateWorks'
-import {getLaureateInfo} from '../NetworkRequests'
+import {getLaureateInfo,urlPrefix} from '../NetworkRequests'
 import $ from 'jquery'
 
 /**
@@ -35,7 +35,7 @@ export default class LaureatePage extends React.Component {
         this.app.include(annotator.identity.simple)
         annotator.authz.AclAuthzPolicy.prototype.permits = permits
         //include the backend remote storage
-        this.app.include(annotator.storage.http, {prefix: "/annotations/api"});
+        this.app.include(annotator.storage.http, {prefix: urlPrefix+"/annotations/api"});
         //add hook on annotation creation
         this.app.include(() => ({
             beforeAnnotationCreated: (ann) => {

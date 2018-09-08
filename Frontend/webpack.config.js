@@ -1,6 +1,5 @@
 const path = require('path');
 const merge = require("webpack-merge")
-const BundleTracker = require('webpack-bundle-tracker');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const UglifyWebpackPlugin = require("uglifyjs-webpack-plugin");
 
@@ -29,7 +28,6 @@ const commonConfig = {
         ]
     },
     plugins: [
-        new BundleTracker({filename: './webpack-stats.json'}),
         new HardSourceWebpackPlugin()
     ],
     externals: { //required by wikijs
@@ -76,7 +74,7 @@ const developmentConfig = {
             {
                 test: /\.js$/,
                 include: path.resolve(__dirname, 'src'),
-                exclude: path.resolve(__dirname, 'node_modules'),
+                exclude: path.resolve(__dirname, 'node_modules'), //do not minify node modules
                 use: [{
                     loader: 'babel-loader',
                     options: {

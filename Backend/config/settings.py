@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
     'annotator_store',
-    'webpack_loader',
     'corsheaders',
     'allauth',
     'allauth.account',
@@ -108,13 +107,6 @@ TEMPLATES = [
 ]
 
 from .localConfig import STATICFILES_DIRS, FRONTEND_DIR
-
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'BUNDLE_DIR_NAME': 'dist/',
-        'STATS_FILE': os.path.join(FRONTEND_DIR, 'webpack-stats.json'),
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

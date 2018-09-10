@@ -1,5 +1,8 @@
 import request from 'superagent';
 
+//url prefix to append before all urls
+export const urlPrefix = "";
+
 /**
  * Log in into authentication backend
  * @param email: string
@@ -7,7 +10,7 @@ import request from 'superagent';
  */
 export function logIn(email, password) {
     return request
-        .post('/rest-auth/login/')
+        .post(urlPrefix + '/rest-auth/login/')
         .send({email: email, password: password})
 }
 
@@ -20,7 +23,7 @@ export function logIn(email, password) {
  */
 export function signUp(username, email, password1, password2) {
     return request
-        .post('/rest-auth/registration/')
+        .post(urlPrefix + '/rest-auth/registration/')
         .send({username: username, email: email, password1: password1, password2: password2})
 }
 
@@ -30,7 +33,7 @@ export function signUp(username, email, password1, password2) {
  */
 export function logOut() {
     return request
-        .post('/rest-auth/logout/')
+        .post(urlPrefix + '/rest-auth/logout/')
 }
 
 /**
@@ -39,7 +42,7 @@ export function logOut() {
  */
 export function getLoggedUserInfo() {
     return request
-        .get("/rest-auth/user/")
+        .get(urlPrefix + "/rest-auth/user/")
         .set('Authorization', "Token " + sessionStorage.getItem('token'))
 }
 
@@ -49,7 +52,7 @@ export function getLoggedUserInfo() {
  */
 export function getLaureates() {
     return request
-        .get('/api/laureates/')
+        .get(urlPrefix + '/api/laureates/')
         .set('Accept', 'application/json')
         .then((response) => response.body)
 }
@@ -61,7 +64,7 @@ export function getLaureates() {
  */
 export function getLaureateInfo(name) {
     return request
-        .get('/api/laureates/' + name + "/")
+        .get(urlPrefix + '/api/laureates/' + name + "/")
         .set('Accept', 'application/json')
         .then((response) => response.body)
 }
@@ -73,7 +76,7 @@ export function getLaureateInfo(name) {
  */
 export function getPrizeInfo(prizeURl) {
     return request
-        .get(prizeURl)
+        .get(urlPrefix + prizeURl)
         .set('Accept', 'application/json')
         .then((response) => response.body)
 }

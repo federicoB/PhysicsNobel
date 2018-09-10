@@ -54,8 +54,8 @@ const productionConfig = {
                     loader: 'babel-loader',
                     options: {
                         presets: [
-                            ['react'],
-                            ['env', {modules: false}]
+                            ['@babel/react'],
+                            ['@babel/env', {modules: false}]
                         ]
                     }
                 }]
@@ -79,8 +79,8 @@ const developmentConfig = {
                     loader: 'babel-loader',
                     options: {
                         presets: [
-                            ['react'],
-                            ['env', {
+                            ['@babel/react'],
+                            ['@babel/env', {
                                 "targets": {
                                     "browsers": ["> 10%"] //target browsers with market share > 10%
                                 }

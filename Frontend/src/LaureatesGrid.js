@@ -2,6 +2,8 @@ import React from 'react';
 import {Grid, Image, Dimmer, Segment, Header} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
+import {urlPrefix} from "./NetworkRequests";
+
 const numberOfLaureateShown = 20;
 const numberOfMaxColumn = 5;
 
@@ -73,7 +75,7 @@ class LaureateCard extends React.Component {
             <Dimmer.Dimmable as={Segment} dimmed={active}
                              onMouseEnter={this.handleShow}
                              onMouseLeave={this.handleHide}>
-                <Link to={"/pages/" + name}>
+                <Link to={urlPrefix + "/pages/" + name}>
                     <Dimmer active={active}>
 
                         <Header as='h2' inverted>

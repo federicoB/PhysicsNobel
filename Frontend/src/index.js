@@ -122,7 +122,7 @@ class Application extends React.Component {
                 <div style={mainContentStyle}>
                     <Switch>
                         {/* homepage laureate list/grid */}
-                        <Route exact path={urlPrefix} render={laureateGrid}/>
+                        <Route exact path={urlPrefix + "/"} render={laureateGrid}/>
                         {/* Sign in form */}
                         <Route exact path={urlPrefix + '/signup'} render={signUpPage}/>
                         {/* Log in form */}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import { withRouter } from 'react-router'
 import {Search, Icon, Segment} from 'semantic-ui-react'
+import {urlPrefix} from "./NetworkRequests";
 
 class SearchBarNoRouter extends React.Component {
     constructor(props) {
@@ -15,9 +16,9 @@ class SearchBarNoRouter extends React.Component {
         this.resetComponent = this.resetComponent.bind(this);
         this.handleResultSelect = this.handleResultSelect.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
-        this.gotoGenericSearch = this.gotoGenericSearch.bind(this)
+        this.gotoGenericSearch = this.gotoGenericSearch.bind(this);
         this.resultRenderer = ({ title }) =>
-            <Link to={"/pages/" + title}><Segment basic compact size="small"> {title} </Segment></Link>;
+            <Link to={urlPrefix + "/pages/" + title}><Segment basic compact size="small"> {title} </Segment></Link>;
         this.resultRenderer.propTypes = {
             title: PropTypes.string,
         }
@@ -36,7 +37,7 @@ class SearchBarNoRouter extends React.Component {
     }
 
     gotoGenericSearch() {
-        this.history.push('/results/' + this.state.value)
+        this.history.push(urlPrefix + '/results/' + this.state.value)
     }
 
     handleSearchChange(e, { value }) {

@@ -2,7 +2,7 @@ import React from 'react';
 import {Header, Segment} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
-import {getPrizeInfo} from '../NetworkRequests';
+import {getPrizeInfo, urlPrefix} from '../NetworkRequests';
 import WorksComponent from './WorksComponent';
 
 export default class PrizeInfo extends React.Component {
@@ -39,7 +39,7 @@ export default class PrizeInfo extends React.Component {
             //create list of coworkers
             let coworkers = prize.laureates.map(({name}) => name)
                 .filter((laureate) => (laureate !== name))
-                .map((laureate) => (<Link key={laureate} to={"/pages/" + laureate}>{laureate}</Link>))
+                .map((laureate) => (<Link key={laureate} to={urlPrefix + "/pages/" + laureate}>{laureate}</Link>))
             coworkers = (coworkers.length > 0) ? coworkers.reduce((prev, curr, index) => [prev, ', ', curr]) : null
             return [
                 <Header key={"coworkers-motivation" + prize.year}

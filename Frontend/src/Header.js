@@ -9,6 +9,7 @@ import {logOut} from "./NetworkRequests"
 import logo from './assets/atom_white.svg'
 import backgroud from './assets/background.jpg'
 import SearchBar from './SearchBar'
+import {urlPrefix} from "./NetworkRequests";
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -43,7 +44,7 @@ export default class Header extends React.Component {
                               }}/>
                     <Grid centered stackable columns="16">
                         <Grid.Column width="16">
-                            <Link to="/"><Image centered size="small" src={logo}/></Link>
+                            <Link to={urlPrefix + "/"}><Image centered size="small" src={logo}/></Link>
                         </Grid.Column>
                         <Grid.Column width="16">
                             <HeaderSemantic id="title" inverted textAlign="center"
@@ -63,7 +64,7 @@ export default class Header extends React.Component {
                     <Grid columns="16">
                         <Grid.Column mobile="3" tablet="2" computer="1"
                                      verticalAlign="middle">
-                            <Link to="/"><Image size="small" src={logo}/></Link>
+                            <Link to={urlPrefix + "/"}><Image size="small" src={logo}/></Link>
                         </Grid.Column>
                         <Grid.Column
                             only="computer tablet" tablet="5" computer="1" verticalAlign="middle">
@@ -78,7 +79,7 @@ export default class Header extends React.Component {
                                      verticalAlign="middle" textAlign="right">
                             <UserMenu user={user} logOut={this.logOut}>
                                 <Menu.Item>
-                                    <Link to="/">Home</Link>
+                                    <Link to={urlPrefix + "/"}>Home</Link>
                                 </Menu.Item>
                             </UserMenu>
                         </Grid.Column>
@@ -134,10 +135,10 @@ class UserMenu extends React.Component {
                        onClick={this.toggleOpen}>
                         <RevealMenu open={open}>
                             <Menu.Item>
-                                <Link to="/login">Log in</Link>
+                                <Link to={urlPrefix + "/login"}>Log in</Link>
                             </Menu.Item>
                             <Menu.Item>
-                                <Link to="/signup">Sign up</Link>
+                                <Link to={urlPrefix + "/signup"}>Sign up</Link>
                             </Menu.Item>
                         </RevealMenu>
                     </i>
@@ -146,10 +147,10 @@ class UserMenu extends React.Component {
                     <Menu compact>
                         {children}
                         <Menu.Item>
-                            <Link to="/login">Log in</Link>
+                            <Link to={urlPrefix + "/login"}>Log in</Link>
                         </Menu.Item>
                         <Menu.Item>
-                            <Link to="/signup">Sign up</Link>
+                            <Link to={urlPrefix + "/signup"}>Sign up</Link>
                         </Menu.Item>
                     </Menu>
                 </Responsive>

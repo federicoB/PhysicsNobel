@@ -1,7 +1,7 @@
 import React from 'react'
 import {Button, Form, Header, Message} from 'semantic-ui-react'
 
-import {logIn as logInToServer, signUp as signUpToServer} from './NetworkRequests'
+import {logIn as logInToServer, signUp as signUpToServer, urlPrefix} from './NetworkRequests'
 
 function LoginSignUpContainer(props) {
     return (
@@ -83,7 +83,7 @@ function logInSignresponseHandler(error, response, username, component) {
         component.setState(state);
     } else {
         component.props.loginCarriedOut(username, response.body.key);
-        component.props.history.push('/');
+        component.props.history.push(urlPrefix + '/');
     }
 }
 

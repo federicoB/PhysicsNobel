@@ -27,13 +27,12 @@
     "url-loader": "^1.1.1",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
-    "webpack-merge": "^4.1.4",
     "wikijs": "^4.8.1"
   },
   "scripts": {
-    "start": "webpack --watch --env development",
-    "build": "webpack --env production",
-    "build:stats": "webpack --env production --json > stats.json",
+    "start": "webpack --watch --mode=development",
+    "build": "webpack --mode=production",
+    "build:stats": "webpack --mode=production --json > stats.json",
     "test": "jest"
   },
   "devDependencies": {

@@ -12,11 +12,11 @@ First of all it doesn't have a memory for all the data its shows! Everything is 
 
 This reflect new structure of the web where knowledge is stored only in one place (more precisely in only at one URI) and is shared between services.
 
-Indeed PhysicsNobel offer and [RESTful](https://it.wikipedia.org/wiki/Representational_State_Transfer) interface at /api/ URI to other services. 
+Indeed PhysicsNobel offer a [RESTful](https://it.wikipedia.org/wiki/Representational_State_Transfer) interface at /api/ URI to other external services. 
 
 Physics Nobel embraces semantic web (where URIs lead not only to documents) using Wikidata and quering them with [SPARQL](https://it.wikipedia.org/wiki/SPARQL) queries. 
 
-I tried to use some cutting edge tecnologies at the time of major developing (2017) using libraries, frameworks and tools like [React](https://reactjs.org/), [Webpack](https://webpack.js.org/) and [Django](https://www.djangoproject.com/),
+I tried to use some cutting edge tecnologies at the time of major developing (2017) using libraries, frameworks and tools like [React](https://reactjs.org/), [Webpack](https://webpack.js.org/) and [Django](https://www.djangoproject.com/).
 
 [Link to PhysicsNobel website](http://site1746.tw.cs.unibo.it/)
 

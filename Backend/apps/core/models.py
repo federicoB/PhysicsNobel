@@ -167,11 +167,14 @@ class Prize:
         # Prize.all() is cached so performance of this workaround is not a problem
         laureates = list(filter(lambda prize: (prize.year == year), Prize.all()))[0].laureates
         # laureates = [Laureate(laureate['firstname'] + " " + laureate['surname']) for laureate in laureatesRaw]
-        # all motivation are equal to only pick the first one
+        # all motivation are equal so only pick the first one
         # truncate beginning "for" word
         # TODO sometimes truncate too much (see Wilhem Rontgen)
+        # HOW TO FIX create a list of preposition (for,in,...) search if the motivation start with one of them and remove it
         motivation = laureatesRaw[0]['motivation'][5:-1]
+        # now use the truncated string as a keyword search in crossref
         worksData = crossref.getMotivationWorksData(motivation)
+        # creates a Work object for each element of crossref api data response
         works = [Work.getFromHabaneroItem(item) for item in worksData]
         return Prize(year, laureates, motivation, works)
 

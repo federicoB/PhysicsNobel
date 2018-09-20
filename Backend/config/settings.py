@@ -28,6 +28,7 @@ ALLOWED_HOSTS = [
     'site1746.tw.cs.unibo.it' # unibo domain #TODO remove once expired
 ]
 
+# whitelist of services that the frontend can connect directly
 CORS_ORIGIN_WHITELIST = (
     'en.wikipedia.org',
 )

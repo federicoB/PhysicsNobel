@@ -9,14 +9,17 @@ const numberOfLaureateShown = 20;
 export default class LaureatesGrid extends React.Component {
     constructor(props) {
         super(props);
+        //get a random number between 0 and number of laureates minus the number of laureates to show
+        const start = Math.random() * (this.props.laureates.length - numberOfLaureateShown);
         // initialize component internal state
-        this.state = {width: 0};
+        this.state = {width: 0, start: start};
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
     componentDidMount() {
         // update windows dimension now that is loaded
         this.updateWindowDimensions();
+        //get a random slice of all laureates
         // add event listener to windows DOM object when its dimension change
         window.addEventListener('resize', this.updateWindowDimensions);
     }
@@ -32,14 +35,13 @@ export default class LaureatesGrid extends React.Component {
     }
 
     render() {
+        // get start index of slice of laureate array from state
+        const start = this.state.start;
+        //get the laureate slice from laureate list
+        const laureateslice = this.props.laureates.slice(start, start + numberOfLaureateShown);
         // determine number of colums
         // 384 is given by the equation 1920/x = 5 (which means 5 column of full hd)
         const numberOfColumns = Math.round(this.state.width / 384);
-        //get a random slice of all laureates
-        //get a random number between 0 and number of laureates minus the number of laureates to show
-        const start = Math.random() * (this.props.laureates.length - numberOfLaureateShown);
-        //get the laureate slice from laureate list
-        const laureateslice = this.props.laureates.slice(start, start + numberOfLaureateShown);
         //create list of cards components showing info about laureates
         let cards = laureateslice.map(({name, picture, prizes}) => (
                 <LaureateCard

@@ -5,10 +5,36 @@ import {Link} from 'react-router-dom'
 import {urlPrefix} from "./NetworkRequests";
 
 const numberOfLaureateShown = 20;
-const numberOfMaxColumn = 5;
 
 export default class LaureatesGrid extends React.Component {
+    constructor(props) {
+        super(props);
+        // initialize component internal state
+        this.state = {width: 0};
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    }
+
+    componentDidMount() {
+        // update windows dimension now that is loaded
+        this.updateWindowDimensions();
+        // add event listener to windows DOM object when its dimension change
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentWillUnmount() {
+        // remove event listener when the component is removed from render tree
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+    updateWindowDimensions() {
+        //save windows width inside component internal state
+        this.setState({width: window.innerWidth});
+    }
+
     render() {
+        // determine number of colums
+        // 384 is given by the equation 1920/x = 5 (which means 5 column of full hd)
+        const numberOfColumns = Math.round(this.state.width / 384);
         //get a random slice of all laureates
         //get a random number between 0 and number of laureates minus the number of laureates to show
         const start = Math.random() * (this.props.laureates.length - numberOfLaureateShown);
@@ -24,8 +50,11 @@ export default class LaureatesGrid extends React.Component {
                 />
         ));
         let component = [];
-        let step = Math.floor(numberOfLaureateShown / numberOfMaxColumn);
+        // create columns with slice of card and mange items inside with flexbox
+        // number of COLUMNS
+        let step = Math.floor(numberOfLaureateShown / numberOfColumns);
         for (let i = 0; i <= numberOfLaureateShown - step; i = i + step) {
+            //get a slice of array to insert into i-th column
             const slice = cards.slice(i, i + step);
             component.push(<div key={i} style={{
                 width: '300px',
@@ -36,7 +65,7 @@ export default class LaureatesGrid extends React.Component {
         }
         return (
             <div id="laureateGrid" style={{
-                display: 'flex',
+                display: 'flex', //using flexbox
                 flexFlow: 'row wrap',
                 margin: 'auto',
                 justifyContent: 'center',

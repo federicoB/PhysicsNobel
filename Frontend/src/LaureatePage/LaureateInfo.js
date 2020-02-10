@@ -1,5 +1,5 @@
 import React from 'react'
-import {Grid, Image, Header, Container} from "semantic-ui-react";
+import {Grid, Image, Header} from "semantic-ui-react";
 
 export default class LaureateInfo extends React.Component {
     render() {

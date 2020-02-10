@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Image, Dimmer, Segment, Header} from 'semantic-ui-react'
+import {Dimmer, Segment, Header} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
 import {urlPrefix} from "./NetworkRequests";

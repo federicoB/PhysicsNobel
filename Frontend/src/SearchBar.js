@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import { withRouter } from 'react-router'
-import {Search, Icon, Segment} from 'semantic-ui-react'
+import {Search, Segment} from 'semantic-ui-react'
 import {urlPrefix} from "./NetworkRequests";
 
 class SearchBarNoRouter extends React.Component {

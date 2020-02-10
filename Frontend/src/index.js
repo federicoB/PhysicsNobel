@@ -14,7 +14,7 @@ import ResultsPage from './ResultsPage'
 import PageSwitcher from './PageSwitcher'
 import Header from './Header'
 import Footer from './Footer'
-import {getLaureates, requestUserInfo, urlPrefix} from './NetworkRequests'
+import {getLaureates, urlPrefix} from './NetworkRequests'
 
 /**
  * Root container of application.

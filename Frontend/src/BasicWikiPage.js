@@ -1,6 +1,6 @@
 import React from 'react'
 import wiki from 'wikijs'
-import {Loader, Segment, Header, Container} from 'semantic-ui-react'
+import {Loader, Header, Container} from 'semantic-ui-react'
 import WikiText from './WikiText'
 import $ from 'jquery'
 

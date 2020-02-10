@@ -5,8 +5,7 @@ import LaureateInfo from './LaureateInfo'
 import PrizeInfo from './PrizeInfo'
 import Biography from './Biography'
 import LaureateWorks from './LaureateWorks'
-import {getLaureateInfo,urlPrefix} from '../NetworkRequests'
-import $ from 'jquery'
+import {getLaureateInfo} from '../NetworkRequests'
 
 /**
  * Component showing detailed info about a laureate
@@ -100,7 +99,7 @@ function permits(action, context, identity) {
             // Fine-grained authorization on permissions field
             const tokens = permissions[action]
 
-            if (typeof tokens === 'undefined' || tokens === null || ((typeof tokens === 'object') && (tokens.length == 0))) {
+            if (typeof tokens === 'undefined' || tokens === null || ((typeof tokens === 'object') && (tokens.length === 0))) {
                 // Missing tokens array for this action: anyone can perform
                 // action.
                 return true

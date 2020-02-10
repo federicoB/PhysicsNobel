@@ -1,7 +1,6 @@
 import React from 'react'
 import {
-    Grid, Loader, Menu, Label, Responsive, Dropdown, Icon, Button, Image, Segment,
-    Header as HeaderSemantic
+    Grid, Loader, Menu, Icon, Image, Header as HeaderSemantic
 } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {logOut} from "./NetworkRequests"

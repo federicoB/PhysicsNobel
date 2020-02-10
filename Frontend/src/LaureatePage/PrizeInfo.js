@@ -14,7 +14,7 @@ export default class PrizeInfo extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         //for each prize won get prize info
         this.props.prizes.map((prize, index) => {
             //set loading true because it's going to do a network request

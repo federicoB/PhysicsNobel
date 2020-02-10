@@ -24,7 +24,7 @@ class SearchBarNoRouter extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.resetComponent()
     }
 

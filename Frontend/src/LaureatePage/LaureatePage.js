@@ -1,6 +1,5 @@
 import React from 'react'
 import {Loader,Divider,Container} from 'semantic-ui-react'
-import annotator from 'annotator'
 
 import LaureateInfo from './LaureateInfo'
 import PrizeInfo from './PrizeInfo'
@@ -19,55 +18,13 @@ export default class LaureatePage extends React.Component {
         this.state = {
             laureate: null,
         };
-        this.inizializeAnnotator = this.inizializeAnnotator.bind(this)
         this.fetchLaureateInfo = this.fetchLaureateInfo.bind(this)
-    }
-
-    inizializeAnnotator() {
-        //TODO lazy load annotator
-        //setup annotator library
-        this.app = new annotator.App();
-        //include annotator user interface
-        this.app.include(annotator.ui.main);
-        //include annotator access control list
-        //TODO check if really needed
-        this.app.include(annotator.authz.acl);
-        this.app.include(annotator.identity.simple)
-        annotator.authz.AclAuthzPolicy.prototype.permits = permits
-        //include the backend remote storage
-        this.app.include(annotator.storage.http, {prefix: urlPrefix+"/annotations/api"});
-        //add hook on annotation creation
-        this.app.include(() => ({
-            beforeAnnotationCreated: (ann) => {
-                //to include page title inside annotation
-                ann.page_title = this.props.name;
-            }
-        }));
     }
 
     fetchLaureateInfo(laureateName) {
         //call network request for getting laureate info and set the state
         getLaureateInfo(laureateName).then((laureate) => {
-            this.inizializeAnnotator()
             this.setState({laureate: laureate});
-            //start annotator
-            this.app.start().then(() => {
-                if (this.props.user !== null) {
-                    const {user} = this.props;
-                    //set identity
-                    this.app.ident.identity = user.username;
-                    //set header for CDRF token protection
-                    this.app.annotations.store.setHeader('X-CSRFToken', user.crsfToken);
-                    //use token authentication
-                    this.app.annotations.store.setHeader('Authorization',"Token " + user.token);
-                } else {
-                    this.app.ident.identity = ""
-                    // anonymous user can't add annotations
-                    $('.annotator-adder').css({'display': 'none', 'visibility': 'hidden'})
-                }
-                //load annotation from store
-                this.app.annotations.load({'page_title': this.props.name});
-            });
         });
     }
 
@@ -79,8 +36,6 @@ export default class LaureatePage extends React.Component {
         //check if a new laureate is requested
         if (this.props.name !== newProps.name) {
             this.setState({laureate: null});
-            //destroy annotator object to clean up
-            if (this.app) this.app.destroy()
             //re-fetch laureate info
             this.fetchLaureateInfo(newProps.name)
         }
@@ -88,11 +43,6 @@ export default class LaureatePage extends React.Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         return (nextProps.name!==nextState.name)
-    }
-
-    componentWillUnmount() {
-        //destroy annotator object to clean up
-        if (this.app) this.app.destroy()
     }
 
     render() {

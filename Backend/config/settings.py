@@ -25,7 +25,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'site1746.tw.cs.unibo.it' # unibo domain #TODO remove once expired
 ]
 
 # whitelist of services that the frontend can connect directly
@@ -44,14 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
-    'annotator_store',
     'corsheaders',
-    'allauth',
-    'allauth.account',
-    'rest_auth.registration',
-    'guardian',
     'apps.core.apps.PhysicsConfig',
 ]
 # used for django rest authentication
@@ -108,48 +100,6 @@ TEMPLATES = [
 ]
 
 from .localConfig import STATICFILES_DIRS, FRONTEND_DIR
-
-# Password validation
-# https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-AUTHENTICATION_BACKENDS = (
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
-    'guardian.backends.ObjectPermissionBackend',
-)
-
-ANNOTATION_OBJECT_PERMISSIONS = True
-
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_EMAIL_REQUIRED = 'true'
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    )
-}
-
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'apps.core.serializer.RegisterSerializer',
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

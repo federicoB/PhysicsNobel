@@ -78,21 +78,6 @@ class PrizeEndpointTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class UsersTests(TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_Registration(self):
-        data = {
-            'username': 'test',
-            'password1': 'test',
-            'password2': 'test',
-            'email': 'test@gmail.com',
-        }
-        response = self.client.post('/rest-auth/registration/', data=data)
-        self.assertEqual(response.status_code, 201)
-
-
 class WikidataTests(TestCase):
     def test_generatePictureThumbnailUrl(self):
         inputPictureUri = "https://upload.wikimedia.org/wikipedia/commons/d/d2/Broglie_Big.jpg"

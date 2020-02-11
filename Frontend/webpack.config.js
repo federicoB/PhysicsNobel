@@ -15,8 +15,7 @@ module.exports = {
                 use: ['style-loader', 'css-loader']
 
             },
-            { //i had problems with url-loader so i use only file-loader for now.
-                //will be linked
+            {
                 test: /\.(jpg|png|woff|woff2|ttf|svg|eot)$/,
                 loader: 'file-loader',
                 options: {

@@ -18,13 +18,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-from .secretSettings import SECRET_KEY
+from os.path import exists
+if exists('.secretSettings.py'):
+    from .secretSettings import SECRET_KEY
+else:
+    from random import choice
+    from string import ascii_lowercase
+    SECRET_KEY = ''.join(choice(ascii_lowercase) for i in range(48))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+#SECURE_BROWSER_XSS_FILTER = True
+#SESSION_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
+    '127.0.0.1', 'physicsnobel.herokuapp.com'
 ]
 
 # whitelist of services that the frontend can connect directly
@@ -99,8 +109,6 @@ TEMPLATES = [
     },
 ]
 
-from .localConfig import STATICFILES_DIRS, FRONTEND_DIR
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -117,4 +125,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 # TODO check if can put static files in root path
-STATIC_URL = '/static/'
+if DEBUG:
+    STATIC_URL = '/static/'
+    from .localConfig import STATICFILES_DIRS, FRONTEND_DIR
+else:
+    #TODO fix with herouku
+    STATIC_URL = "https://%s.s3.amazonaws.com/" % S3_BUCKET

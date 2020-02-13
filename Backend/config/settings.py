@@ -38,6 +38,10 @@ ALLOWED_HOSTS = [
     '127.0.0.1', 'physicsnobel.herokuapp.com'
 ]
 
+from django.utils.log import DEFAULT_LOGGING
+
+DEFAULT_LOGGING['handlers']['console']['filters'] = []
+
 # whitelist of services that the frontend can connect directly
 CORS_ORIGIN_WHITELIST = (
     'en.wikipedia.org',
@@ -126,7 +130,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 # TODO check if can put static files in root path
-STATIC_URL = '/static/'
-from .localConfig import STATICFILES_DIRS, FRONTEND_DIR
+STATICFILES_DIRS = ['static']
 
 django_heroku.settings(locals())

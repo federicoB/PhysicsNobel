@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-cd Frontend/
+cd ../Frontend/
 npm install
 npm run-script build

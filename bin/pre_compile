@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+cd Frontend/
+npm install
+npm run-script build

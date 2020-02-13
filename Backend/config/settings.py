@@ -125,9 +125,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 # TODO check if can put static files in root path
-if DEBUG:
-    STATIC_URL = '/static/'
-    from .localConfig import STATICFILES_DIRS, FRONTEND_DIR
-else:
-    #TODO fix with herouku
-    STATIC_URL = "https://%s.s3.amazonaws.com/" % S3_BUCKET
+STATIC_URL = '/static/'
+from .localConfig import STATICFILES_DIRS, FRONTEND_DIR

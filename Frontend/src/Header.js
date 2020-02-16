@@ -49,7 +49,7 @@ export default class Header extends React.Component {
                 <div className="basic inverted small top attached"
                      style={headerBackgroud}>
                     <Grid columns="16">
-                        <Grid.Column mobile="3" tablet="2" computer="1"
+                        <Grid.Column mobile="5" tablet="2" computer="1"
                                      verticalAlign="middle">
                             <Link to={urlPrefix + "/"}><Image size="small" src={logo}/></Link>
                         </Grid.Column>
@@ -57,18 +57,11 @@ export default class Header extends React.Component {
                             only="computer tablet" tablet="5" computer="1" verticalAlign="middle">
                             <HeaderSemantic id="title" inverted>PhysicsNobel</HeaderSemantic>
                         </Grid.Column>
-                        <Grid.Column only="computer" computer="6"/>
-                        <Grid.Column mobile="8" tablet="5" computer="3" verticalAlign="middle"
+                        <Grid.Column only="computer" computer="10"/>
+                        <Grid.Column only="tablet" tablet="4"/>
+                        <Grid.Column mobile="11" tablet="5" computer="4" verticalAlign="middle"
                                      textAlign="right">
                             {searchBar}
-                        </Grid.Column>
-                        <Grid.Column mobile="5" tablet="4" computer="5"
-                                     verticalAlign="middle" textAlign="right">
-                            <Menu >
-                                <Menu.Item>
-                                    <Link to={urlPrefix + "/"}>Home</Link>
-                                </Menu.Item>
-                            </Menu>
                         </Grid.Column>
                     </Grid>
                 </div>

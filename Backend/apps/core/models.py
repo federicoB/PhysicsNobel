@@ -37,7 +37,9 @@ class Laureate(object):
                 picture = wikidata.generatePictureThumbnailUri(picture, 200)
             else:
                 # otherwise use google search for retrieve it
-                picture = google.getImage(name)
+                # TODO disabled because it was too slow, FIX
+                # picture = google.getImage(name)
+                picture = ""
             # join elements with the same laureate
             # add a new laureate only if it's not already in the list
             if name not in names:

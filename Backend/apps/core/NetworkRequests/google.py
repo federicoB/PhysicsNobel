@@ -25,8 +25,11 @@ def getFromScrape(laureateName):
     soup = BeautifulSoup(urlopen(Request(url, headers=header)), 'html.parser')
     # get metadata contained in <div class="rg_meta">
     a = soup.find("div", {"class": "rg_meta"})
-    # the metadata is saved as json, decode it
-    link = json.loads(a.text)["ou"]
+    if hasattr(a,'text'):
+        # the metadata is saved as json, decode it
+        link = json.loads(a.text)["ou"]
+    else:
+        return ""
     return link
 
 def getImage(laureateName):

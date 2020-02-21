@@ -18,7 +18,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-from .secretSettings import SECRET_KEY
+from os.path import exists
+if exists('.secretSettings.py'):
+    from .secretSettings import SECRET_KEY
+else:
+    from random import choice
+    from string import ascii_lowercase
+    SECRET_KEY = ''.join(choice(ascii_lowercase) for i in range(48))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -26,6 +32,10 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
+
+from django.utils.log import DEFAULT_LOGGING
+
+DEFAULT_LOGGING['handlers']['console']['filters'] = []
 
 # whitelist of services that the frontend can connect directly
 CORS_ORIGIN_WHITELIST = (
@@ -76,8 +86,8 @@ DATABASES = {
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'physicsNoble_cache',
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',
     }
 }
 

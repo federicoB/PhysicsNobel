@@ -5,7 +5,7 @@ celery==4.2.1
 certifi==2018.8.24
 chardet==3.0.4
 defusedxml==0.5.0
-Django==1.11.28
+Django==1.11.29
 django-cors-headers==2.4.0
 djangorestframework==3.11.2
 eulcommon==0.19.0
